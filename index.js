@@ -56,7 +56,8 @@ async function createDialog(display, text) {
     n1.data.display = display;
     n1.addOutput(new Rete.Output('next', n1.data.display, anyType, false));
     editor.addNode(n1);
-    $('.dialogue').oncontextmenu = function (event) {
+    const dialog_el = document.getElementsByClassName('dialogue')[document.getElementsByClassName('dialogue').length-1]
+    dialog_el.oncontextmenu = function (event) {
         close_contextmenu();
         show_contextmenu([{
             text: 'Edit',
@@ -66,10 +67,10 @@ async function createDialog(display, text) {
             onclick: "editor.removeNode(editor.selected.list[0])"
         }], [event.pageX, event.pageY]);
     };
-    $('.dialogue').onmouseover = function () {
+    dialog_el.onmouseover = function () {
         mouse_over_dialoge = true;
     };
-    $('.dialogue').onmouseout = function () {
+    dialog_el.onmouseout = function () {
         mouse_over_dialoge = false;
     };
 }
@@ -86,7 +87,8 @@ async function createChoose(display, text) {
         "display": display
     });
     editor.addNode(choo);
-    $('.choose').oncontextmenu = function (event) {
+    const dialog_el = document.getElementsByClassName('dialogue')[document.getElementsByClassName('dialogue').length-1]
+    dialog_el.oncontextmenu = function (event) {
         close_contextmenu();
         show_contextmenu([{
             text: 'Edit',
@@ -99,10 +101,10 @@ async function createChoose(display, text) {
             onclick: "editor.removeNode(editor.selected.list[0])"
         }], [event.pageX, event.pageY]);
     };
-    $('.choose').onmouseover = function () {
+    dialog_el.onmouseover = function () {
         mouse_over_dialoge = true;
     };
-    $('.choose').onmouseout = function () {
+    dialog_el.onmouseout = function () {
         mouse_over_dialoge = false;
     };
 }
