@@ -12,7 +12,7 @@ editor.use(AreaPlugin);
 
 var engine = new Rete.Engine("demo@0.1.0");
 
-[new Text(), new Choose()].map(c => {
+[new Text, new Choose].map(c => {
     editor.register(c);
     engine.register(c);
 });
@@ -46,7 +46,7 @@ editor.on('nodecreated', node => {
 
 editor.view.resize();
 
-var components = [new Text(), new Choose()];
+var components = [new Text, new Choose];
 
 async function createDialog(display, text) {
     var n1 = await components[0].createNode();
