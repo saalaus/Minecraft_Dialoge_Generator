@@ -12,11 +12,11 @@ var scores_name_timer = ""
 
 class Text extends Rete.Component {
     constructor() {
-        super('Диалог');
+        super('Dialogue');
     }
 
     builder(node) {
-        var prev = node.addInput(new Rete.Input('prev', '', anyType, false))
+        var prev = node.addInput(new Rete.Input('prev', "", anyType, false))
     }
 
     worker(node, inputs, outputs) {
@@ -32,7 +32,7 @@ class Text extends Rete.Component {
             }
         } else {
             max_time = Number(node.data.time)
-            trigger = document.getElementById('tri_def').value
+            trigger = 0//document.getElementById('tri_def').value
             result += "tellraw @a[scores={" + scores_name_trigger + "="+trigger+"," + scores_name_timer + "=" + node.data.time + "}] " + node.data.text + "\n"
             outputs['next'] = {
                 "tag": trigger,
@@ -45,7 +45,8 @@ class Text extends Rete.Component {
 
 class Choose extends Rete.Component {
     constructor() {
-        super('Выбор');
+        super('Choose');
+        this.data.component = Node;
     }
 
     builder(node) {
@@ -62,11 +63,11 @@ class Choose extends Rete.Component {
             for (let i = 0; i < node.data.choose.length; i++) {
                 trigger++
                 let trig_cmd = "/trigger " + scores_name_trigger + " set " + trigger
-                node.data.choose[i].clickEvent = {
+                node.data.choose[i].text.clickEvent = {
                     "action": "run_command",
                     "value": trig_cmd
                 }
-                result += "tellraw @a[scores={" + scores_name_trigger + "=" + inputs['prev'][0].tag + "," + scores_name_timer + "=" + time + "}] " + JSON.stringify(node.data.choose[i]) + "\n"
+                result += "tellraw @a[scores={" + scores_name_trigger + "=" + inputs['prev'][0].tag + "," + scores_name_timer + "=" + time + "}] " + JSON.stringify(node.data.choose[i].text) + "\n"
                 outputs['next' + i] = {
                     "tag": trigger,
                     "time": 1
@@ -77,18 +78,18 @@ class Choose extends Rete.Component {
                 }
             }
         } else {
-            var value = document.getElementById('tri_def').value
+            var value = 0//document.getElementById('tri_def').value
             let time = node.data.time
             max_time = Number(time)
             trigger = value
             for (let i = 0; i < node.data.choose.length; i++) {
                 trigger++
                 let trig_cmd = "/trigger " + scores_name_trigger + " set " + trigger
-                node.data.choose[i].clickEvent = {
+                node.data.choose[i].text.clickEvent = {
                     "action": "run_command",
                     "value": trig_cmd
                 }
-                result += "tellraw @a[scores={" + scores_name_trigger + "=" + value + "," + scores_name_timer + "=" + time + "}] " + JSON.stringify(node.data.choose[i]) + "\n"
+                result += "tellraw @a[scores={" + scores_name_trigger + "=" + value + "," + scores_name_timer + "=" + time + "}] " + JSON.stringify(node.data.choose[i].text) + "\n"
                 outputs['next' + i] = {
                     "tag": trigger,
                     "time": 1

@@ -11,86 +11,49 @@
     <script src="range_lib.js"></script>
     <script src="range_lib_lib.js"></script>
     <script src="code.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/rete@1.0.0-alpha.7/build/rete.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rete@1.4.1/build/rete.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alight@0.14.1/alight.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/rete-alight-render-plugin@0.1.4/build/alight-render-plugin.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/rete-connection-plugin@0.1.2/build/connection-plugin.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/rete-area-plugin@0.1.3/build/area-plugin.min.js"></script>
-    <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/5733e40e5af936eb3f48554cf6a8a7075d71d18a/FileSaver.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rete-alight-render-plugin@0.1.5/build/alight-render-plugin.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/rete-connection-plugin@0.2.4/build/connection-plugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rete-area-plugin@0.1.5/build/area-plugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rete-minimap-plugin@0.1.0"></script>
+    <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/5733e40e5af936eb3f48554cf6a8a7075d71d18a/FileSaver.js">
+    </script>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="dialogoverlay"></div>
-    <div id="dialogbox">
-        <div>
-            <div id="dialogboxhead">Настройки редактора</div>
-            <div id="dialogboxbody">
-                <input type="checkbox" id="clear">Очищать поле после добавления нового диалога<br>
-                <p>Название триггера: </p><input type="text" value="random_trigger" title="Название триггера, random_trigger для рандома(По умолчанию random_trigger)" onchange="trigger_name = this.value">
-                <p>Название таймера:</p> <input type="text" value="random_timer" title="Название таймера, random_timer для рандома(По умолчанию random_timer)" onchange="timer_name = this.value"><br>
-                <p>Стандартная задержка диалога:</p> <input type="number" title="При создании диалога, ему дают стандартную задержку в 1, вы можете поменять это значение(По умолчанию 1)" value="1" id="default_number">
-                <p>Триггер для начала текущего диалога:</p> <input type="number" title="Чтобы запустить триггер нужно ввести команду trigger trigger set 1, вы можете поменять значение 1 на любое, если вы создаете не первый диалог" value='1' id="tri_def">
-                <br>
-                <input type="checkbox" checked title="При этой функции будет отключен весь фидбек от команд, когда их выполняет игрок, однако если убрать галочку то в чате будет надпись после каждого выбора 'Задействован триггер...'" id="feedback">Отключить фидбек от команд
+    <div class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="closeBtn" onclick="closeModal()">&times;</span>
+                <h2 id="head"></h2>
             </div>
-            <div id="dialogboxfoot"><button onclick="Alert.ok()">Сохранить</button>
-                <button onclick="Alert.delete()">Очистить редактор</button></div>
+            <div class="modal-body">
+                <p id="body"></p>
+            </div>
+            <div class="modal-footer">
+                <h3 id="foot"></h3>
+            </div>
         </div>
     </div>
 
 
     <div class="flex">
-        <div id='editor' class="editor tab">
-            <div id="toolbar">
-                <button onclick="makeClass('bold')">B</button>
-                <button onclick="makeClass('italic')">I</button>
-                <button onclick="makeClass('underline')">U</button>
-                <button onclick="makeClass('strikeThrough')">S</button>
-                <button onclick="makeClass('obs')">O</button>
-                <button onclick="document.getElementById('textarea').innerHTML = '' ">C</button>
-                <select id="chooseColor" onchange="makeClass(this.options[this.selectedIndex].value);prev = this.options[this.selectedIndex].value;this.selectedIndex = 0">
-               <option value="none">Выбрать цвет</option>
-                <option value="white">Белый</option>
-                <option value="black">Черный</option>
-                <option value="dark_blue">Темно-синий</option>
-                <option value="dark_green">Темно-зеленый</option>
-                <option value="dark_aqua">Темно-голубой</option>
-                <option value="dark_red">Темно-красный</option>
-                <option value="dark_purple">Темно-фиолетовый</option>
-                <option value="gold">Золотой</option>
-                <option value="gray">Серый</option>
-                <option value="dark_gray">Темно-Серый</option>
-                <option value="blue">Синий</option>
-                <option value="green">Зеленый</option>
-                <option value="aqua">Голубой</option>
-                <option value="red">Красный</option>
-                <option value="light_purple">Светло-Фиолетовый</option>
-                <option value="yellow">Желтый</option>
-            </select>
-                <br>
-                <div id='textarea' contenteditable="true"></div>
-                <br>
+        <div id="rete" class="rete tab"
+            oncontextmenu="if(mouse_over_dialoge == false){show_contextmenu([{text: 'Make Dialogue',onclick: dialoge_modal},{text:'Make Choose',onclick: choose_modal}, {text: 'Download Datapack', onclick: download_zip}],[event.pageX,event.pageY])};return false ">
+            <!-- <button
+                style="top:0;left:0; background: url(gear.svg) no-repeat left top; width: 16px;height: 16px;background-size: 12px 12px"></button> -->
+            <div id="context-menu-container" style="position: absolute;z-index: 10">
+                <ul id="menu"></ul>
             </div>
-            <div id="gen">
-                <button onclick="add_text()" class="gen">Диалог</button>
-                <button class="gen" onclick="add_choose()">Выбор</button>
-            </div>
-            <div class="select" hidden="true">
-                <button class="gen" onclick="add_time()">Задержка</button>
-                <input type="number" value="1" min="1" id="numb" style="margin-top: 10px; margin-bottom: 10px">
-                <br>
-                <button onclick="removenode()">Удалить</button>
-            </div>
-        </div>
-        <div id="rete" class="rete tab">
-            <button style="top:0;left:0; background: url(gear.svg) no-repeat left top; width: 16px;height: 16px;background-size: 12px 12px" onclick="Alert.render()"></button>
         </div>
     </div>
-    <div>
+    <!-- <div>
         <button onclick="download_zip()">Скачать набор данных</button>
         <button onclick="down_func()">Скачать функцию</button>
-    </div>
+    </div> -->
 
     <script src="component.js"></script>
     <script src="index.js"></script>

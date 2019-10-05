@@ -54,13 +54,18 @@ html {
     height: 100%;
     width: 100%;
     font: 300 16px Roboto, Arial;
+    overflow-x: hidden;
 }
 
 
-#textarea {
+#textarea,
+.textarea {
     border: 1px #000000 solid;
     padding: 12px;
     word-break: break-all;
+    min-height: 20px;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 body,
@@ -159,46 +164,123 @@ html {
     width: 140px;
 }
 
-#dialogoverlay {
+.dialogue {
+    background-image: url('https://i.pinimg.com/originals/44/f2/0c/44f20c3d441cf00b00cde02452254905.jpg');
+    background-size: contain
+}
+
+.dialogue:hover {
+    background-image: url('https://i.pinimg.com/originals/44/f2/0c/44f20c3d441cf00b00cde02452254905.jpg');
+    background-size: contain;
+}
+
+.dialogue.selected {
+    background-image: url('https://i.pinimg.com/originals/44/f2/0c/44f20c3d441cf00b00cde02452254905.jpg');
+    background-size: contain;
+}
+
+.choose:hover {
+    background-image: url('https://i.imgur.com/llrXrHX.jpg');
+    background-size: contain;
+}
+
+.choose {
+    background-image: url('https://i.imgur.com/llrXrHX.jpg');
+    background-size: contain;
+}
+
+.choose.selected {
+    background-image: url('https://i.imgur.com/llrXrHX.jpg');
+    background-size: contain;
+}
+
+.modal {
     display: none;
-    opacity: .8;
     position: fixed;
-    top: 0px;
-    left: 0px;
-    background: #FFF;
+    z-index: 20;
+    left: 0;
+    top: 0;
+    height: 100%;
     width: 100%;
-    z-index: 10;
+    overflow: inherit;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-#dialogbox {
-    display: none;
-    position: fixed;
-    background: #000;
-    border-radius: 7px;
-    width: 550px;
-    z-index: 10;
+.modal-content {
+    background-color: #f4f4f4;
+    margin: 10% auto;
+    width: 70%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
 }
 
-#dialogbox > div {
-    background: #FFF;
-    margin: 8px;
+.modal-header h2,
+.modal-footer h3 {
+    margin: 0;
 }
 
-#dialogbox > div > #dialogboxhead {
-    background: #666;
-    font-size: 19px;
+.modal-header {
+    background: coral;
+    padding: 15px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.modal-body {
+    padding: 10px 20px;
+}
+
+.modal-footer {
+    background: coral;
     padding: 10px;
-    color: #CCC;
+    color: #fff;
+    text-align: center;
 }
 
-#dialogbox > div > #dialogboxbody {
-    background: #333;
-    padding: 20px;
-    color: #FFF;
+.closeBtn {
+    color: #ccc;
+    float: right;
+    font-size: 30px;
+    color: #fff;
 }
 
-#dialogbox > div > #dialogboxfoot {
-    background: #666;
-    padding: 10px;
-    text-align: right;
+.closeBtn:hover {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul#menu {
+    color: black;
+    background-color: whitesmoke;
+    padding: 0;
+    margin: 0;
+    border: 3px solid black;
+}
+
+ul#menu li {
+    border: 1px solid black
+}
+
+ul#menu li:hover {
+    background-color: darkslateblue;
+    cursor: default;
+}
+
+#context-menu-container {
+    display: none
+}
+
+.node {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.connection {
+    width: auto;
+    height: auto;
 }
