@@ -104,8 +104,8 @@ function gen_cmd(e) {
     return cmd;
 }
 
-const dialoge_modal = `modal('Make new Dialogue',toolbar,button_add_text);`;
-const choose_modal = `modal('Make new Choose',toolbar,button_add_choose)`;
+const dialoge_modal = `modal('Make new Dialogue',toolbar+time_input,button_add_text);`;
+const choose_modal = `modal('Make new Choose',toolbar+time_input,button_add_choose)`;
 const add_choose_modal = `modal('Add new choose',toolbar,button_add_new_choose)`;
 const edit_node = `modal('Edit',edit_gui(),button_edit_accept)`
 const download = `download_zip()`
@@ -137,6 +137,7 @@ toolbar += `<select id="chooseColor" onchange="makeClass(this.options[this.selec
 </select>`;
 toolbar += `<div id='textarea' contenteditable="true"></div>`;
 
+const time_input = `<br><input type="number" value="1" id="time">`
 const button_add_text = `<button id="BUTTONADDTEXT" onclick="add_text();closeModal()">Make</button>`;
 const button_add_choose = `<button id="BUTTONADDTEXT" onclick="add_choose();closeModal()">Make</button>`;
 const button_add_new_choose = `<button id="BUTTONADDTEXT" onclick="new_choose();closeModal()">Make</button>`;
