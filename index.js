@@ -87,7 +87,7 @@ async function createChoose(display, text) {
         "display": display
     });
     editor.addNode(choo);
-    const dialog_el = document.getElementsByClassName('dialogue')[document.getElementsByClassName('dialogue').length-1]
+    const dialog_el = document.getElementsByClassName('choose')[document.getElementsByClassName('choose').length-1]
     dialog_el.oncontextmenu = function (event) {
         close_contextmenu();
         show_contextmenu([{
