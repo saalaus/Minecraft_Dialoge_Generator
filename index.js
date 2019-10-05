@@ -51,7 +51,7 @@ var components = [new Text, new Choose];
 async function createDialog(display, text) {
     var n1 = await components[0].createNode();
     n1.position = [editor.view.area.mouse.x, editor.view.area.mouse.y];
-    n1.data.time = 0;
+    n1.data.time = 1;
     n1.data.text = text;
     n1.data.display = display;
     n1.addOutput(new Rete.Output('next', n1.data.display, anyType, false));
@@ -80,7 +80,7 @@ async function createChoose(display, text) {
     choo = await components[1].createNode();
     choo.position = [editor.view.area.mouse.x, editor.view.area.mouse.y];
     choo.addOutput(new Rete.Output('next0', display, anyType, false));
-    choo.data.time = 0;
+    choo.data.time = 1;
     choo.data.choose = [];
     choo.data.choose.push({
         "text": JSON.parse(text),
