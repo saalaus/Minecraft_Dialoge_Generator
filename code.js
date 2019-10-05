@@ -108,6 +108,7 @@ const dialoge_modal = `modal('Make new Dialogue',toolbar,button_add_text);`;
 const choose_modal = `modal('Make new Choose',toolbar,button_add_choose)`;
 const add_choose_modal = `modal('Add new choose',toolbar,button_add_new_choose)`;
 const edit_node = `modal('Edit',edit_gui(),button_edit_accept)`
+const download = `download_zip()`
 
 let toolbar = `<button onclick="makeClass('bold')">B</button>
 <button onclick="makeClass('italic')">I</button>
