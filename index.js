@@ -236,7 +236,7 @@ function download_zip() {
     result = "scoreboard players add @a[scores={" + scores_name_trigger + "=1..}] " + scores_name_timer + " 1\nscoreboard players set @a[scores={" + scores_name_trigger + "=0}] " + scores_name_timer + " 0\n";
     var datapack_name = 'dialoge_' + make_namespace();
     var namespace = make_namespace();
-    zip.file(datapack_name + "/data/" + namespace + '/functions/dialoge_init.mcfunction', "scoreboard objectives add " + scores_name_trigger + " trigger\nscoreboard objectives add " + scores_name_timer + "dummy\ngamerule sendCommandFeedback false\n");
+    zip.file(datapack_name + "/data/" + namespace + '/functions/dialoge_init.mcfunction', "scoreboard objectives add " + scores_name_trigger + " trigger\nscoreboard objectives add " + scores_name_timer + " dummy\ngamerule sendCommandFeedback false\n");
     zip.file(datapack_name + '/pack.mcmeta', '{"pack":{"pack_format":1,"description":"description"}}');
     Promise.resolve(engine.process(editor.toJSON())).then(function (value) {
         result += "scoreboard players set @a[scores={" + scores_name_trigger + "=" + 1 + ".." + max_trigger + "," + scores_name_timer + "=" + max_time + "}] " + scores_name_trigger + " 0\nscoreboard players set @a[scores={" + scores_name_timer + "=" + max_time + "}] " + scores_name_timer + " 0";
