@@ -3,7 +3,7 @@ var text = ""
 var result = ""
 var time_worker = 0
 var choose
-var trigger = 0
+var trigger = 1
 var max_time = 1
 var max_trigger = 1
 
@@ -32,7 +32,7 @@ class Text extends Rete.Component {
             }
         } else {
             max_time = Number(node.data.time)
-            trigger = 0//document.getElementById('tri_def').value
+            trigger = 1//document.getElementById('tri_def').value
             result += "tellraw @a[scores={" + scores_name_trigger + "="+trigger+"," + scores_name_timer + "=" + node.data.time + "}] " + node.data.text + "\n"
             outputs['next'] = {
                 "tag": trigger,
@@ -78,7 +78,7 @@ class Choose extends Rete.Component {
                 }
             }
         } else {
-            var value = 0//document.getElementById('tri_def').value
+            var value = 1//document.getElementById('tri_def').value
             let time = node.data.time
             max_time = Number(time)
             trigger = value
