@@ -48,10 +48,10 @@ editor.view.resize();
 
 var components = [new Text, new Choose];
 
-async function createDialog(display, text) {
+async function createDialog(display, text, time) {
     var n1 = await components[0].createNode();
     n1.position = [editor.view.area.mouse.x, editor.view.area.mouse.y];
-    n1.data.time = 1;
+    n1.data.time = time;
     n1.data.text = text;
     n1.data.display = display;
     n1.addOutput(new Rete.Output('next', n1.data.display, anyType, false));
@@ -75,12 +75,12 @@ async function createDialog(display, text) {
     };
 }
 
-async function createChoose(display, text) {
+async function createChoose(display, text, time) {
     components[1] = new Choose();
     choo = await components[1].createNode();
     choo.position = [editor.view.area.mouse.x, editor.view.area.mouse.y];
     choo.addOutput(new Rete.Output('next0', display, anyType, false));
-    choo.data.time = 1;
+    choo.data.time = time;
     choo.data.choose = [];
     choo.data.choose.push({
         "text": JSON.parse(text),
@@ -126,12 +126,13 @@ function add_choose() {
     var node = editor.selected.list[0];
     let choose = gen_cmd();
     let display = document.getElementById('textarea').innerHTML.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+    let time = $('#time').value
     // if (node !== undefined && node.name == "Choose") {
     //   node.addOutput(new Rete.Output('next' + node.data.choose.length, display, anyType, false));
     // node._alight.scan()
     //  node.data.choose.push(JSON.parse(choose))
     //  } else {
-    createChoose(display, choose);
+    createChoose(display, choose, time);
     //  }
     // if (document.getElementById('clear').checked == true) {
     //    document.getElementById('textarea').innerHTML = ''
@@ -142,7 +143,8 @@ function add_choose() {
 function add_text() {
     let text = gen_cmd();
     let display = document.getElementById('textarea').innerHTML.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-    createDialog(display, text);
+    let time = $('#time').value
+    createDialog(display, text, time);
     // if (document.getElementById('clear').checked == true) {
     //    document.getElementById('textarea').innerHTML = ''
     //}
