@@ -89,13 +89,13 @@ async function createChoose(display, text) {
     $('.choose').oncontextmenu = function (event) {
         close_contextmenu();
         show_contextmenu([{
-            text: 'Редактировать',
+            text: 'Edit',
             onclick: edit_node
         }, {
-            text: "Добавить выбор",
+            text: "Add Choose",
             onclick: add_choose_modal
         }, {
-            text: 'Удалить',
+            text: 'Delete',
             onclick: "editor.removeNode(editor.selected.list[0])"
         }], [event.pageX, event.pageY]);
     };
