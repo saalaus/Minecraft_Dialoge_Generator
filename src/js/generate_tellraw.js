@@ -1,8 +1,6 @@
+let json = {}
+let iter = 1
 
-// document.onselectionchange = () => {
-//     selected = window.getSelection().toString();
-//     // console.log(selected)
-//  };
 rangy.init();
 bold = rangy.createClassApplier("bold");
 italic = rangy.createClassApplier("italic");
@@ -30,9 +28,11 @@ yellow = rangy.createClassApplier("yellow");
 const all_color = [white, black, dark_blue, dark_green, dark_aqua, dark_red, dark_purple, gold, gray, dark_gray, blue, green, aqua, red, light_purple, yellow];
 const all_applier = [bold, italic, underline, strike, obfuscated].concat(all_color);
 
+
 function isSelectInTag(tag) {
     return tag.isAppliedToSelection();
 }
+
 
 function allTestApplier() {
     let tests = [];
@@ -46,26 +46,16 @@ function isSelectedText() {
     return window.getSelection().toString() ? true : false;
 }
 
-// editor.onmouseup = () => {
-//     toggleButton();
-// };
-// editor.onkeydown = () => {
-//     toggleButton();
-// };
-// editor.onkeyup = () => {
-//     toggleButton();
-// };
-// editor.ontouchend = () => {
-//     toggleButton();
-// };
 
-// editor.onmousemove = () => {
-//     if (isSelectedText()) toggleButton();
-// };
+const create_btn = document.getElementById("create-btn")
+create_btn.onclick = () => {
+    json = {}
+    iter = 1
+    parseHTML()
+    makeDialogue(document.getElementById("editor").innerHTML, json, 25)
+    close_modal()
+}
 
-// editor.onclick = () => {
-//     toggleButton();
-// };
 
 function toggleButton() {
     let tests = allTestApplier();
@@ -93,6 +83,7 @@ function toggleButton() {
 
 }
 
+
 function resetAllFormat() {
     let tests = allTestApplier();
     for (let i in tests) {
@@ -100,6 +91,7 @@ function resetAllFormat() {
     }
     toggleButton();
 }
+
 
 function changeColor(color) {
     for (let clr in all_color) {
@@ -114,44 +106,42 @@ function changeColor(color) {
     focus();
 }
 
-var c = 1;
-var json = {};
 
 function parseHTML(node) {
     node = !node?document.getElementById('editor'):node;
     if (node.hasChildNodes()) {
         for (var oNode = node.firstChild; oNode; oNode = oNode.nextSibling) {
             if (oNode.nodeName == "#text") {
-                json['text' + c] = {};
-                json['text' + c].text = oNode.textContent;
+                json['text' + iter] = {};
+                json['text' + iter].text = oNode.textContent;
                 for (var pNode = oNode.parentNode; pNode; pNode = pNode.parentNode) {
                     if(pNode.id == 'editor') break;
                     if (pNode.nodeName == 'SPAN') {
                         pNode.classList.forEach((className) => {
                             switch (className) {
                                 case 'bold':
-                                    json['text' + c].bold = true;
+                                    json['text' + iter].bold = true;
                                     break;
                                 case 'italic':
-                                    json['text' + c].italic = true;
+                                    json['text' + iter].italic = true;
                                     break;
                                 case 'underline':
-                                    json['text' + c].underlined = true;
+                                    json['text' + iter].underlined = true;
                                     break;
                                 case 'strike':
-                                    json['text' + c].strikethrough = true;
+                                    json['text' + iter].strikethrough = true;
                                     break;
                                 case 'obfuscated':
-                                    json['text' + c].obfuscated = true;
+                                    json['text' + iter].obfuscated = true;
                                     break;
                                 default:
-                                    json['text' + c].color = className;
+                                    json['text' + iter].color = className;
                                     break;
                             }
                         });
                     }
                 }
-                c++;
+                iter++;
             }
             parseHTML(oNode);
         }

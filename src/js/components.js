@@ -19,7 +19,7 @@ class Dialogue extends Rete.Component {
 
 function makeDialogue(display, tellraw, time, pos){
     if (!pos) pos = [editor.view.area.mouse.x, editor.view.area.mouse.y];
-    Promise.resolve(components[0].createNode({ display: display, tellraw: JSON.parse(tellraw), time: time })).then(function(node){
+    Promise.resolve(components[0].createNode({ display: display, tellraw: tellraw, time: time })).then(function(node){
         node.position = pos;
         node.addOutput(new Rete.Output('next', display, socket, true));
         editor.addNode(node);

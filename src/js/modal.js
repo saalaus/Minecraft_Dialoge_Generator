@@ -17,13 +17,10 @@ window.onclick = function(event) {
   }
 }
 
-
-document.getElementById("create_btn").onclick = function(){
-    json = {};
-    c = 1;
-    parseHTML()
-    console.log(json)
+function close_modal(){
+  modal.style.display = "none";
 }
+
 
 function showModalDialogue(){
     modal_header.innerText = "Create new dialogue";
