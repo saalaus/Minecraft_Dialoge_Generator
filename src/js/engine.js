@@ -4,6 +4,7 @@ const components = [new Dialogue()];
 
 editor.use(ConnectionPlugin.default);
 editor.use(Stage0RenderPlugin);
+editor.use(RecursionPlugin)
 
 
 const engine = new Rete.Engine('demo@0.1.0');
