@@ -1,0 +1,142 @@
+.obfuscated {
+    text-shadow: 6px 2px 0px;
+    padding: 0 8px 0 4px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.strike {
+    text-decoration: line-through;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.dark_red {
+    color: darkred
+}
+
+.white {
+    color: white
+}
+
+.black {
+    color: black
+}
+
+.dark_blue {
+    color: blue
+}
+
+.dark_green {
+    color: green
+}
+
+.dark_aqua {
+    color: darkturquoise
+}
+
+.dark_purple {
+    color: purple
+}
+
+.gold {
+    color: gold
+}
+
+.gray {
+    color: gray
+}
+
+.dark_gray {
+    color: dimgray
+}
+
+.blue {
+    color: skyblue
+}
+
+.green {
+    color: limegreen
+}
+
+.aqua {
+    color: aqua
+}
+
+.red {
+    color: indianred
+}
+
+.light_purple {
+    color: deeppink
+}
+
+.yellow {
+    color: yellow
+}
+
+
+#editor {
+    /* margin: 0px 0px 0.3125em 0px; */
+    padding: 0.75em 0.75em 0.75em 0.75em;
+    border: 0.0625em solid white;
+    min-height: 6em;
+    max-height: 6em;
+    overflow-y: auto;
+    background-color: #4F4D4C;
+    color: white;
+    outline: none;
+    font-size: 3em;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                    supported by Chrome, Opera and Firefox */
+}
+
+.sizeColor{
+    width: 10em;
+    height: 1.5em;
+    font-size: 1.5em;
+}
+
+.sizeBtn{
+    width: 2em;
+    height: 1.5em;
+    font-size: 1.5em;
+}
+
+font{
+    color: unset
+}
+
+b{
+    font-weight: normal
+}
+
+i{
+    font-style: normal
+}
+
+u{
+    text-decoration: none;
+}
