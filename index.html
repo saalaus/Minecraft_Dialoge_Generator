@@ -23,7 +23,7 @@
 
     <!-- rete js -->
     <script src="https://cdn.jsdelivr.net/npm/rete@1.4.2/build/rete.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/rete-stage0-render-plugin@0.2.14/build/stage0-render-plugin.min.js"></script>
+    <script src="src/js/plugins/stage0-render-plugin.js"></script>
     <script src="src/js/plugins/reteconnection.js"></script>
 
     <!-- rangy -->
@@ -35,7 +35,7 @@
     <div id="app" class="app" style='height: 100%;'><div id="rete"></div></div>
 
 
-    <nav class="context-menu" id="context-menu">
+    <!-- <nav class="context-menu" id="context-menu">
         <ul class="context-menu__items">
              <li class="context-menu__item">
                 <a href="#" class="context-menu__link create_dialogue">
@@ -53,11 +53,11 @@
                  </a>
             </li>
         </ul>
-    </nav>
+    </nav> -->
 
 
-  <div id="myModal" class="modal">
-  <!-- Modal content -->
+  <!-- <div id="myModal" class="modal">
+  <!-- Modal content 
   <div class="modal-content">
     <div class="modal-header">
       <span class="close">&times;</span>
@@ -69,11 +69,13 @@
         <button id="create-btn">Create</button>
     </div>
   </div>
-
-</div>
+</div>  -->
     <!-- scripts -->
+    <script src="src/js/components/dialogue_modal.js"></script>
+    <script src="src/js/components/modal.js"></script>
+    <script src="src/js/components/contextmenu.js"></script>
     <script src="src/js/plugins/rete-recursion.js"></script>
-    <script src="src/js/modal.js"></script>
+    <!-- <script src="src/js/modal.js"></script> -->
     <script src="src/js/components.js"></script>
     <script src="src/js/engine.js"></script>
     <script src="src/js/contextmenu.js"></script>

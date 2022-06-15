@@ -47,14 +47,14 @@ function isSelectedText() {
 }
 
 
-const create_btn = document.getElementById("create-btn")
-create_btn.onclick = () => {
-    json = {}
-    iter = 1
-    parseHTML()
-    makeDialogue(document.getElementById("editor").innerHTML, json, 25)
-    close_modal()
-}
+// const create_btn = document.getElementById("create-btn")
+// create_btn.onclick = () => {
+//     json = {}
+//     iter = 1
+//     parseHTML()
+//     makeDialogue(document.getElementById("editor").innerHTML, json, 25)
+//     close_modal()
+// }
 
 
 function toggleButton() {

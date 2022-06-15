@@ -145,7 +145,8 @@ function positionMenu(e) {
 function menuItemListener(el){
         switch(el.classList[1]){
             case "create_dialogue":
-                showModalDialogue();
+                // showModalDialogue();
+                modal.show()
 
                 document.getElementById('buttons_gui').onclick = (event) => {
                     if (event.target.id != 'chooseColor'){
