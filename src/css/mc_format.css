@@ -19,8 +19,12 @@
     text-decoration: underline;
 }
 
+.strike.underline {
+    text-decoration: underline line-through;
+}
+
 .dark_red {
-    color: darkred
+    color: rgb(170, 0, 0);
 }
 
 .white {
@@ -32,111 +36,160 @@
 }
 
 .dark_blue {
-    color: blue
+    color: rgb(0, 0, 170);
 }
 
 .dark_green {
-    color: green
+    color: rgb(0, 170, 0);
 }
 
 .dark_aqua {
-    color: darkturquoise
+    color: rgb(0, 170, 170);
 }
 
 .dark_purple {
-    color: purple
+    color: rgb(170, 0, 170);
 }
 
 .gold {
-    color: gold
+    color: rgb(255, 170, 0);
 }
 
 .gray {
-    color: gray
+    color: rgb(170, 170, 170);
 }
 
 .dark_gray {
-    color: dimgray
+    color: rgb(85, 85, 85);
 }
 
 .blue {
-    color: skyblue
+    color: rgb(85, 85, 255);
 }
 
 .green {
-    color: limegreen
+    color: rgb(85, 255, 85);
 }
 
 .aqua {
-    color: aqua
+    color: rgb(85, 255, 255);
 }
 
 .red {
-    color: indianred
+    color: rgb(255, 85, 85);
 }
 
 .light_purple {
-    color: deeppink
+    color: rgb(255, 85, 255);
 }
 
 .yellow {
-    color: yellow
+    color: rgb(255, 255, 85);
 }
 
 
-#editor {
-    /* margin: 0px 0px 0.3125em 0px; */
-    padding: 0.75em 0.75em 0.75em 0.75em;
-    border: 0.0625em solid white;
-    min-height: 6em;
-    max-height: 6em;
-    overflow-y: auto;
-    background-color: #4F4D4C;
+.bg-none {
+    background-color: white;
+    color: black
+}
+
+.bg-white {
+    background-color: white;
+    color: black;
+}
+
+.bg-black {
+    background-color: black;
     color: white;
-    outline: none;
-    font-size: 3em;
 }
 
-.noselect {
-    -webkit-touch-callout: none;
-    /* iOS Safari */
-    -webkit-user-select: none;
-    /* Safari */
-    -khtml-user-select: none;
-    /* Konqueror HTML */
-    -moz-user-select: none;
-    /* Old versions of Firefox */
-    -ms-user-select: none;
-    /* Internet Explorer/Edge */
-    user-select: none;
-    /* Non-prefixed version, currently
-                                    supported by Chrome, Opera and Firefox */
+.bg-dark_blue {
+    background-color: rgb(0, 0, 170);
+    color: white;
 }
 
-.sizeColor{
-    width: 10em;
-    height: 1.5em;
-    font-size: 1.5em;
+.bg-dark_green {
+    background-color: rgb(0, 170, 0);
+    color: white;
 }
 
-.sizeBtn{
-    width: 2em;
-    height: 1.5em;
-    font-size: 1.5em;
+.bg-dark_aqua {
+    background-color: rgb(0, 170, 170);
+    color: white;
 }
 
-font{
+.bg-dark_purple {
+    background-color: rgb(170, 0, 170);
+    color: white;
+}
+
+.bg-gold {
+    background-color: rgb(255, 170, 0);
+    color: black;
+}
+
+.bg-gray {
+    background-color: rgb(170, 170, 170);
+    color: black;
+}
+
+.bg-dark_gray {
+    background-color: rgb(85, 85, 85);
+    color: white;
+}
+
+.bg-blue {
+    background-color: rgb(85, 85, 255);
+    color: black;
+}
+
+.bg-green {
+    background-color: rgb(85, 255, 85);
+    color: black;
+}
+
+.bg-aqua {
+    background-color: rgb(85, 255, 255);
+    color: black;
+}
+
+.bg-red {
+    background-color: rgb(255, 85, 85);
+    color: white;
+}
+
+.bg-dark_red {
+    background-color: rgb(170, 0, 0);
+    color: white;
+}
+
+.bg-light_purple {
+    background-color: rgb(255, 85, 255);
+    color: black;
+}
+
+.bg-yellow {
+    background-color: rgb(255, 255, 85);
+    color: black;
+}
+
+#choice_color {
+    font-family: 'Minecraftia';
+}
+
+
+font {
     color: unset
 }
 
-b{
+b {
     font-weight: normal
 }
 
-i{
+i {
     font-style: normal
 }
 
-u{
+u {
     text-decoration: none;
 }

@@ -3,13 +3,13 @@ const modalView = stage0.h`
     <!-- Modal content -->
     <div class="modal-content">
         <div class="modal-header">
-            <span class="close" #modal_close>&times;</span>
             <h2 class="modal-header-text">#modal_name</h2>
         </div>
         <div class="modal-body" #modal_body>
         </div>
     <div class="modal-footer">
-        <button>create<button>
+        <button class="mc-button button-big">Create</button>
+        <button class="mc-button button-big" #modal_close>Close</button>
     </div>
 </div>`
 
@@ -37,7 +37,7 @@ function Modal(name){
 
     window.onclick = function(event) {
         if (event.target == root) {
-          root.close();
+        //   root.close();
         }
       }
 

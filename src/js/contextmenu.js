@@ -31,15 +31,15 @@ function contextMenuListener(el) {
     });
 }
 
-document.getElementById("app").oncontextmenu = function (e) {
-    if (clickInsideElement(e, "app")){
-        e.preventDefault();
-        positionMenu();
-        toggleMenuOn();
-    }else{
-        toggleMenuOff();
-    }
-};
+// document.getElementById("app").oncontextmenu = function (e) {
+//     if (clickInsideElement(e, "app")){
+//         e.preventDefault();
+//         positionMenu();
+//         toggleMenuOn();
+//     }else{
+//         toggleMenuOff();
+//     }
+// };
 
 document.addEventListener("click", function (e) {
     var clickeElIsLink = clickInsideElement( e, contextMenuLinkClassName );
