@@ -1,15 +1,16 @@
 const container = $('#rete')[0];
 const editor = new Rete.NodeEditor('demo@0.1.0', container);
 const components = [new Dialogue()];
+const background = document.createElement('div');
+background.classList = 'background';
 
-var exports = {};
+
 editor.use(ConnectionPlugin.default);
 editor.use(Stage0RenderPlugin);
 editor.use(RecursionPlugin)
-const background = document.createElement('div');
-background.classList = 'background';
 editor.use(AreaPlugin, {
-    background
+    background: background,
+    scaleExtent: { min: 0.1, max: 1 },
 })
 
 
@@ -34,10 +35,4 @@ editor.on("contextmenu", (object) => {
         positionMenu();
         toggleMenuOn();
     }
-})
-editor.on("renderconnection", (obj) => {
-    console.log(obj, "renderconnection")
-})
-editor.on("updateconnection", (obj) => {
-    console.log(obj, "updateconnection")
 })
