@@ -1,5 +1,5 @@
 const modalView = stage0.h`
-<div id="myModal" class="modal">
+<div id="create-dialogue" class="modal">
     <!-- Modal content -->
     <div class="modal-content">
         <div class="modal-header">
@@ -8,7 +8,7 @@ const modalView = stage0.h`
         <div class="modal-body" #modal_body>
         </div>
     <div class="modal-footer">
-        <button class="mc-button button-big">Create</button>
+        <button class="mc-button button-big" id="create_dialogue">Create</button>
         <button class="mc-button button-big" #modal_close>Close</button>
     </div>
 </div>`

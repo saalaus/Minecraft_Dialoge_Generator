@@ -1,6 +1,6 @@
 const dialogueModalView = stage0.h`
 <div id="editor_ui" style='width: 100%;height: 100%;'>
-    <div contenteditable="true" id="editor"></div>
+    <div contenteditable="true" id="editor" #editor></div>
     <div id="buttons_gui" class='noselect' >
         <div id="buttons" style='display: inline;'>
             <div class="row">
@@ -41,8 +41,18 @@ const dialogueModalView = stage0.h`
 </div>
 `
 
-function DialogueModal(){
+function DialogueModal() {
     const root = dialogueModalView
+    const { editor } = root.collect(root)
+
+    let interval = null 
+    editor.onfocus = function () {
+        interval = setInterval(toggleButton, 200);
+    };
+
+    editor.onblur = function () {
+        clearInterval(interval);
+    };
 
     return root
 }

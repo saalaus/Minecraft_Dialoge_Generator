@@ -47,26 +47,26 @@ function isSelectedText() {
 }
 
 
-// const create_btn = document.getElementById("create-btn")
-// create_btn.onclick = () => {
-//     json = {}
-//     iter = 1
-//     parseHTML()
-//     makeDialogue(document.getElementById("editor").innerHTML, json, 25)
-//     close_modal()
-// }
+function setSelectStyle(){
+    const select = document.getElementById('choice_color');
+    const option = select.options[select.selectedIndex];
+    const styles = getComputedStyle(option);
+    select.style.backgroundColor = styles["background-color"];
+    select.style.color = styles["color"];
+}
 
 
 function toggleButton() {
     let tests = allTestApplier();
     let found = false;
+    const select = document.getElementById('choice_color')
     for (let i in tests) {
         let el = document.querySelector(`button[data-format="${i}"]`);
         if (tests[i]) {
             if (el) {
                 el.style = 'border: 0.0625em solid;border-radius: 0.125em 0 0 0.125em;box-shadow: rgba(0, 0, 0, 0.6) 0px 0.0625em 0.3125em inset, rgba(0, 0, 0, 0.2) 0em 0.0625em ';
             } else {
-                document.getElementById('chooseColor').options[i - 4].selected = true;
+                select.options[i - 4].selected = true;
                 found = true;
             }
         }
@@ -74,13 +74,11 @@ function toggleButton() {
             el.style = '';
         }
         if (!found) {
-            document.getElementById('chooseColor').options[0].selected = true;
+            select.options[0].selected = true;
         }
 
     }
-    let chooseColor = document.getElementById('chooseColor');
-    chooseColor.style = chooseColor.options[chooseColor.selectedIndex].style.cssText;
-
+    setSelectStyle()
 }
 
 
@@ -101,51 +99,69 @@ function changeColor(color) {
         }
     }
     toggleButton();
-    let chooseColor = document.getElementById('chooseColor');
-    chooseColor.style = chooseColor.options[chooseColor.selectedIndex].style.cssText;
+    setSelectStyle()
     focus();
 }
 
-
-function parseHTML(node) {
-    node = !node?document.getElementById('editor'):node;
-    if (node.hasChildNodes()) {
-        for (var oNode = node.firstChild; oNode; oNode = oNode.nextSibling) {
-            if (oNode.nodeName == "#text") {
-                json['text' + iter] = {};
-                json['text' + iter].text = oNode.textContent;
-                for (var pNode = oNode.parentNode; pNode; pNode = pNode.parentNode) {
-                    if(pNode.id == 'editor') break;
-                    if (pNode.nodeName == 'SPAN') {
-                        pNode.classList.forEach((className) => {
-                            switch (className) {
-                                case 'bold':
-                                    json['text' + iter].bold = true;
-                                    break;
-                                case 'italic':
-                                    json['text' + iter].italic = true;
-                                    break;
-                                case 'underline':
-                                    json['text' + iter].underlined = true;
-                                    break;
-                                case 'strike':
-                                    json['text' + iter].strikethrough = true;
-                                    break;
-                                case 'obfuscated':
-                                    json['text' + iter].obfuscated = true;
-                                    break;
-                                default:
-                                    json['text' + iter].color = className;
-                                    break;
-                            }
-                        });
-                    }
-                }
-                iter++;
-            }
-            parseHTML(oNode);
-        }
+function getParentsElements(node) {
+    let nodes = []
+    for (var pNode = node.parentNode; pNode; pNode = pNode.parentNode) {
+        if (pNode.id == 'editor') break;
+        nodes.push(pNode)
     }
+    return nodes
+}
+
+document.getElementById("create_dialogue").addEventListener("click", () => {
+    const tellraw = htmlToTellraw()
+    const html = document.getElementById("editor").innerHTML
+    console.log(tellraw)
+    makeDialogue(html, tellraw)
+    modal.close()
+})
+
+function htmlToTellraw(html) {
+    html = !html ? document.getElementById("editor") : html;
+
+    let json = [""];
+
+    let text_nodes = document.createTreeWalker(html, NodeFilter.SHOW_TEXT, null, false);
+    while (text_nodes.nextNode()) {
+        const node = text_nodes.currentNode
+        let current_json = { "text": node.textContent }
+        const parent_nodes = getParentsElements(node)
+
+        parent_nodes.forEach((node) => {
+            node.classList.forEach((class_name) => {
+                switch (class_name) {
+                    case 'bold':
+                        current_json.bold = true;
+                        break;
+                    case 'italic':
+                        current_json.italic = true;
+                        break;
+                    case 'underline':
+                        current_json.underlined = true;
+                        break;
+                    case 'strike':
+                        current_json.strikethrough = true;
+                        break;
+                    case 'obfuscated':
+                        current_json.obfuscated = true;
+                        break;
+                    default:
+                        current_json.color = class_name;
+                        break;
+                }
+            })
+        })
+
+
+
+        json.push(current_json);
+    }
+    return json
+
 }
 
 

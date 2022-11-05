@@ -190,7 +190,7 @@
     let name = output.name;
 
     if (this.name !== name) {
-      const b = stage0.h([name]);
+      const b = h(["<div>"+name+"</div>"]);
       if (this.oldChild){
         this.refs.outputtitle.removeChild(this.oldChild);
       }

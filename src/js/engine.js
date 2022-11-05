@@ -27,12 +27,44 @@ editor.on('process nodecreated noderemoved connectioncreated connectionremoved',
     await engine.process(editor.toJSON());
 });
 
+function deleteNode(node) {
+    node = node ? node : editor.selected.list[0];
+    for (let output of node.outputs.values()) {
+        for (let connection of output.connections) {
+            editor.removeConnection(connection)
+        }
+    }
+    return editor.view.removeNode(node);
+}
+
+function unselectedNode() {
+    editor.selected.clear()
+    editor.nodes.map(n => n.update())
+}
+
 editor.on("contextmenu", (object) => {
     console.log(object)
     object.e.preventDefault();
     console.log(object.e.target)
-    if (object.e.target == background){
-        positionMenu();
-        toggleMenuOn();
+    if (object.e.target == background) {
+        contextmenu.toggleMenuOn("background");
+        unselectedNode()
+    }
+    if (object.e.target.classList.contains("input") ||
+        object.e.target.classList.contains("inputs") ||
+        object.e.target.classList.contains("output")) {
+        contextmenu.toggleMenuOn("node");
+        object.node ? editor.selectNode(object.node) : null
+    }
+})
+
+editor.on("zoom translate nodetranslate", () => {
+    contextmenu.toggleMenuOff();
+});
+
+
+editor.on("keyup", (e) => {
+    if (e.keyCode === 27) {
+        contextmenu.toggleMenuOff();
     }
 })
