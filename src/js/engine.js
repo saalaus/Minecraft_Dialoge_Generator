@@ -14,7 +14,7 @@ editor.use(AreaPlugin, {
 })
 
 
-const engine = new Rete.Engine('demo@0.1.0');
+const engine = new Rete.Engine('dialoguegenerator@0.1.0');
 components.map(c => {
     editor.register(c);
     engine.register(c);
