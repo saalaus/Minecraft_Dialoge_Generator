@@ -1,6 +1,3 @@
-let json = {}
-let iter = 1
-
 rangy.init();
 bold = rangy.createClassApplier("bold");
 italic = rangy.createClassApplier("italic");
@@ -36,14 +33,10 @@ function isSelectInTag(tag) {
 
 function allTestApplier() {
     let tests = [];
-    for (let i in all_applier) {
-        tests[i] = isSelectInTag(all_applier[i]);
+    for (let applier in all_applier) {
+        tests.push(isSelectInTag(all_applier[applier]));
     }
     return tests;
-}
-
-function isSelectedText() {
-    return window.getSelection().toString() ? true : false;
 }
 
 
@@ -60,18 +53,18 @@ function toggleButton() {
     let tests = allTestApplier();
     let found = false;
     const select = document.getElementById('choice_color')
-    for (let i in tests) {
-        let el = document.querySelector(`button[data-format="${i}"]`);
-        if (tests[i]) {
+    for (let test_index in tests) {
+        let el = document.querySelector(`button[data-format="${test_index}"]`);
+        if (tests[test_index]) {
             if (el) {
-                el.style = 'border: 0.0625em solid;border-radius: 0.125em 0 0 0.125em;box-shadow: rgba(0, 0, 0, 0.6) 0px 0.0625em 0.3125em inset, rgba(0, 0, 0, 0.2) 0em 0.0625em ';
+                el.classList.add("mc-button-toggle");
             } else {
-                select.options[i - 4].selected = true;
+                select.options[test_index - 4].selected = true;
                 found = true;
             }
         }
-        if (!tests[i] && el) {
-            el.style = '';
+        if (!tests[test_index] && el) {
+            el.classList.remove("mc-button-toggle");
         }
         if (!found) {
             select.options[0].selected = true;
