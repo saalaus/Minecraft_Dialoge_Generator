@@ -8,9 +8,11 @@ export default class Dialogue extends Rete.Component{
     }
 
     builder(node){
-        let out = new Rete.Output('num', 'Number', new Rete.Socket('Number value'));
 
-        node.addOutput(out);
+        node.addOutput(new Rete.Output('num', 'Number', new Rete.Socket('Number value')));
+        node.addOutput(new Rete.Output('num2', 'Number', new Rete.Socket('Number value')));
+        node.addOutput(new Rete.Output('num3', 'Number', new Rete.Socket('Number value')));
+        node.addInput(new Rete.Input("out1", "test", new Rete.Socket('Number value')))
     }
 
     worker(node, input, output){

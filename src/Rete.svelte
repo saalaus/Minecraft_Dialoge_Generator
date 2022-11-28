@@ -1,22 +1,23 @@
+<script context="module">
+    export let editor;
+</script>
+
 <script>
     import { onMount } from "svelte";
     import createEngine from "./rete-engine";
     let element;
-    let engine;
+
 
     onMount(() => {
-        engine = createEngine(element);
-        console.log(engine);
+        editor = createEngine(element);
+        console.log(editor);
     });
-    export function getEngine(){
-        return engine;
-    }
 </script>
 
 <div id="app" bind:this={element} />
 
 <style>
     #app{
-        height: 100vh;
+        min-height: 100vh;
     }
 </style>
