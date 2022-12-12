@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { input_text } from "../stores";
 
 
     export let name = undefined; 
@@ -7,7 +8,7 @@
     let dispatch = createEventDispatcher()
     function close(){
         dispatch("close")
-        console.log("close modal")
+        input_text.set("")
     }
     function keypress(e){
         if (e.key === "Escape"){
@@ -67,7 +68,5 @@
     .modal-footer{
         padding: 2px 16px;
         color: white;
-        display: flex;
-        justify-content: space-evenly;
     }
 </style>

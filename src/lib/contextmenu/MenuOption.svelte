@@ -1,27 +1,22 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();	
-
-    function handleClick(){
-        dispatch("click")
-    }
 </script>
 
-<div class="context-menu_item" on:click={handleClick} on:keypress={undefined}>
+<div class="context-menu_item" on:click on:keypress={undefined}>
     <slot />
 </div>
 
 <style>
     .context-menu_item{
-        padding: 4px 15px;
-		cursor: default;
-		font-size: 20px;
-		display: flex;
-		align-items: center;
-		grid-gap: 5px;
+    padding: 0.5rem 1.5rem 0.5rem 1rem;
+    width: 100%;
+    cursor: pointer;
+    font-family: Minecraftia;
+    color:white;
+    font-size: 16px;
+    box-sizing: border-box;
     }
 
     .context-menu_item:hover{
-        background: #0002;
+        background-color: #8b8b8b;
     }
 </style>

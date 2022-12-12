@@ -1,18 +1,20 @@
 <script>
   import Rete, { editor } from "./Rete.svelte";
-  import ContextMenu from "./lib/contextmenu/ContextMenu.svelte";
   import { onMount } from "svelte";
   import ModalDialogue from "./lib/modal/ModalDialogue.svelte";
+  import Menu from "./lib/contextmenu/Menu.svelte";
+  import MenuOption from "./lib/contextmenu/MenuOption.svelte";
+  import htmlToTellraw from "./lib/tellraw";
+  import { input_text } from "./lib/stores";
+  import { components } from "./rete-engine";
 
   let contextmenu = "";
-  let modal = ""
+  let modal = "";
   let pos = { x: 0, y: 0 };
 
   onMount(() => {
     editor.on("contextmenu", (e) => {
       pos = { x: e.e.clientX, y: e.e.clientY };
-
-      e.e.preventDefault();
 
       if (e.e.target.classList.contains("rete-background")) {
         contextmenu = "bg";
@@ -26,6 +28,7 @@
         contextmenu = "node";
         e.node ? editor.selectNode(e.node) : null;
       }
+      e.e.preventDefault();
       console.log("RC: ", e);
     });
 
@@ -36,7 +39,36 @@
 </script>
 
 <Rete />
-<ContextMenu mode={contextmenu} {pos} on:newdialogue={() => modal = "newdialogue"} />
+{#if contextmenu == "bg"}
+  <Menu
+    {...pos}
+    on:clickoutside={() => (contextmenu = "")}
+    on:close={() => (contextmenu = "")}
+  >
+    <MenuOption on:click={() => (modal = "newdialogue")}
+      >New Dialogue</MenuOption
+    >
+    <MenuOption on:click={() => console.log("newchoose")}>New Choose</MenuOption
+    >
+    <MenuOption on:click={() => console.log("download")}
+      >Download Datapack</MenuOption
+    >
+  </Menu>
+{:else if contextmenu == "node"}
+  <Menu
+    {...pos}
+    on:clickoutside={() => (contextmenu = "")}
+    on:close={() => (contextmenu = "")}
+  >
+    <MenuOption on:click={() => console.log("editnode")}>Edit</MenuOption>
+    <MenuOption on:click={() => console.log("deletenode")}>Delete</MenuOption>
+  </Menu>
+{/if}
+
+Menu
 {#if modal == "newdialogue"}
-  <ModalDialogue/> 
+  <ModalDialogue
+    on:close={() => (modal = "")}
+    on:create={() => createDialogue()}
+  />
 {/if}

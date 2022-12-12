@@ -16,9 +16,8 @@
 
     let element;
     function onPageClick(e){
-        if (e.target === element || element.contains(e.target)) return;
+        if (e.target === element || element.contains(e.target)) dispatch('close');;
 		dispatch('clickoutside');
-        console.log("outside!")
     }
 </script>
 
@@ -30,10 +29,9 @@
 
 <style>
     .context-menu{
-        position: absolute;
-        display: grid;
-		border: 1px solid #0003;
-		box-shadow: 2px 2px 5px 0px #0002;
-		background: white;
+    position: absolute;
+    background-color: #484848;
+    padding: 2px;
+    box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.4), inset -2px 0px 0px 0px rgba(0, 0, 0, 0.4), inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4), inset 2px 0px 0px 0px rgba(255, 255, 255, 0.4);
     }
 </style>

@@ -1,4 +1,23 @@
-<div contenteditable="true" class="text-input" />
+<script>
+    import { input_text } from "../stores";
+
+
+    let element;
+
+    export function focus(){
+        element.focus();
+    }
+
+    export function trigger(){
+        input_text.set(element)
+    }
+
+    function onInput(e){
+        input_text.set(e.target)
+    }
+</script>
+
+<div contenteditable="true" class="text-input" on:input={onInput} on:focus on:blur bind:this={element}/>
 
 <style>
     .text-input {
@@ -13,12 +32,4 @@
         overflow: hidden;
     }
 
-    :global(.text-input br) {
-        display: none;
-    }
-
-    :global(.text-input *) {
-        display: inline;
-        white-space: nowrap;
-    }
 </style>
