@@ -1,29 +1,29 @@
 {
-  "name": "minecraft-dialogue-generator",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "svelte": "./src/App.svelte",
-  "main": "./src/App.svelte",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^1.1.0",
-    "eslint": "^8.29.0",
-    "eslint-config-google": "^0.14.0",
-    "svelte": "^3.52.0",
-    "vite": "^3.2.3"
-  },
-  "dependencies": {
-    "log4javascript": "^1.4.16",
-    "rangy": "^1.3.1",
-    "rangy-classapplier": "^2.1.0",
-    "rete": "^1.5.0-rc1",
-    "rete-area-plugin": "^0.2.1",
-    "rete-connection-plugin": "^0.9.0",
-    "rete-svelte-render-plugin": "github:saalaus/Minecraft_Dialoge_Generator#rete-svelte-render-plugin"
-  }
+    "name": "minecraft-dialogue-generator",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "svelte": "./src/App.svelte",
+    "main": "./src/App.svelte",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "devDependencies": {
+        "@sveltejs/vite-plugin-svelte": "^1.1.0",
+        "eslint": "^8.29.0",
+        "eslint-config-google": "^0.14.0",
+        "svelte": "^3.52.0",
+        "vite": "^3.2.3"
+    },
+    "dependencies": {
+        "log4javascript": "^1.4.16",
+        "rangy": "^1.3.1",
+        "rangy-classapplier": "^2.1.0",
+        "rete": "^1.5.0-rc1",
+        "rete-area-plugin": "^0.2.1",
+        "rete-connection-plugin": "^0.9.0",
+        "rete-svelte-render-plugin": "github:saalaus/Minecraft_Dialoge_Generator#rete-svelte-render-plugin"
+    }
 }

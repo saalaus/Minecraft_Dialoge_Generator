@@ -16,8 +16,8 @@
 
     let element;
     function onPageClick(e){
-        if (e.target === element || element.contains(e.target)) dispatch('close');;
-		dispatch('clickoutside');
+        // if (e.target === element || element.contains(e.target)) dispatch('close');;
+		dispatch('close');
     }
 </script>
 

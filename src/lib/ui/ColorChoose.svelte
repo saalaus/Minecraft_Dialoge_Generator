@@ -1,29 +1,31 @@
 <script>
     import { createEventDispatcher } from "svelte";
 
-    const dispatch = createEventDispatcher()
+    const dispatch = createEventDispatcher();
     let bg_class = "bg-white";
     let element;
 
     function onChange(e) {
         bg_class = `bg-${e.target.value}`;
-        dispatch("change", e.target.value)
+        dispatch("change", e.target.value);
     }
-
-    export function selectItemByValue(value){
-        for (let option_i = 0; option_i < element.options.length; option_i++){
-            const option = element.options[option_i]
-            if (option.value === value){
-                option.selected = true
+    export function selectItemByValue(value) {
+        for (let option_i = 0; option_i < element.options.length; option_i++) {
+            const option = element.options[option_i];
+            if (option.value === value) {
+                option.selected = true;
                 bg_class = `bg-${option.value}`;
-                break
+                break;
             }
         }
-
     }
 </script>
 
-<select class="choice_color {bg_class}" on:change={onChange} bind:this={element}>
+<select
+    class="choice_color {bg_class}"
+    on:change={onChange}
+    bind:this={element}
+>
     <option value="white" class="bg-white">White</option>
     <option value="black" class="bg-black">Black</option>
     <option value="dark_blue" class="bg-dark_blue">Dark Blue</option>
@@ -47,6 +49,7 @@
         font-family: "Minecraftia";
         outline: none;
     }
+
     .bg-white {
         background-color: white;
         color: black;

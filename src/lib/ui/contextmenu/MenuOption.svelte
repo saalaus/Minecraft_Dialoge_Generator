@@ -1,6 +1,3 @@
-<script>
-</script>
-
 <div class="context-menu_item" on:click on:keypress={undefined}>
     <slot />
 </div>

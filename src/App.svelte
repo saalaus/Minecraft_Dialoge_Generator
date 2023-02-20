@@ -1,74 +1,121 @@
 <script>
-  import Rete, { editor } from "./Rete.svelte";
-  import { onMount } from "svelte";
-  import ModalDialogue from "./lib/modal/ModalDialogue.svelte";
-  import Menu from "./lib/contextmenu/Menu.svelte";
-  import MenuOption from "./lib/contextmenu/MenuOption.svelte";
-  import htmlToTellraw from "./lib/tellraw";
-  import { input_text } from "./lib/stores";
-  import { components } from "./rete-engine";
+    import Rete, { editor } from "./lib/rete/Rete.svelte";
+    import { onMount } from "svelte";
+    import ModalDialogue from "./lib/ui/modal/ModalDialogue.svelte";
+    import Menu from "./lib/ui/contextmenu/Menu.svelte";
+    import MenuOption from "./lib/ui/contextmenu/MenuOption.svelte";
+    import { input_text } from "./lib/stores";
+    import { createDialogue } from "./lib/rete/rete.engine";
+    import SnackbarFactory from "./lib/ui/snackbar/SnackbarFactory.svelte";
 
-  let contextmenu = "";
-  let modal = "";
-  let pos = { x: 0, y: 0 };
+    let contextmenu = "";
+    let modal = "";
+    let pos = { x: 0, y: 0 };
+    let snackbar;
 
-  onMount(() => {
-    editor.on("contextmenu", (e) => {
-      pos = { x: e.e.clientX, y: e.e.clientY };
+    onMount(() => {
+        snackbar.create("test", 100000000);
+        snackbar.create("My new toast", 2000);
+        snackbar.create("Test", 3000);
+        editor.on("contextmenu", (e) => {
+            e.e.preventDefault();
+            pos = { x: e.e.clientX, y: e.e.clientY };
 
-      if (e.e.target.classList.contains("rete-background")) {
-        contextmenu = "bg";
-      }
-      if (
-        e.e.target.classList.contains("input") ||
-        e.e.target.classList.contains("input-title") ||
-        e.e.target.classList.contains("output") ||
-        e.e.target.classList.contains("output-title")
-      ) {
-        contextmenu = "node";
-        e.node ? editor.selectNode(e.node) : null;
-      }
-      e.e.preventDefault();
-      console.log("RC: ", e);
+            if (e.e.target.classList.contains("rete-background"))
+                deselectNode();
+            if (
+                e.e.target.classList.contains("input") ||
+                e.e.target.classList.contains("input-title") ||
+                e.e.target.classList.contains("output") ||
+                e.e.target.classList.contains("output-title")
+            ) {
+                contextmenu = "node";
+                e.node ? editor.selectNode(e.node) : null;
+                return;
+            }
+            contextmenu = "bg";
+            console.log("RC: ", e);
+        });
+
+        editor.on("zoom translate nodetranslate", () => {
+            contextmenu = "";
+        });
+
+        editor.on("rendernode", ({ el, node }) => {
+            el.addEventListener("click", () => editor.selectNode(node));
+        });
     });
 
-    editor.on("zoom translate nodetranslate", () => {
-      contextmenu = "";
-    });
-  });
+    function createDialogueNode() {
+        createDialogue(editor, $input_text);
+        closeModal();
+        snackbar.create("Create dialogue");
+    }
+
+    function onPageClick(e) {
+        if (
+            e.target.classList.contains("input") ||
+            e.target.classList.contains("input-title") ||
+            e.target.classList.contains("output") ||
+            e.target.classList.contains("output-title")
+        )
+            return;
+        deselectNode();
+    }
+
+    function deselectNode() {
+        const node = editor.selected.list[0];
+        if (!node) return;
+        editor.selected.list = [];
+        node.svelteContext.update();
+    }
+
+    function keyup(e) {
+        if (e.keyCode === 46) {
+            const node = editor.selected.list[0];
+            if (!node) return;
+            editor.removeNode(node);
+        }
+        if (e.keyCode === 27) deselectNode();
+    }
+
+    function closeModal() {
+        modal = "";
+    }
 </script>
 
+<svelte:body on:click={onPageClick} on:keyup={keyup} />
+
 <Rete />
+
 {#if contextmenu == "bg"}
-  <Menu
-    {...pos}
-    on:clickoutside={() => (contextmenu = "")}
-    on:close={() => (contextmenu = "")}
-  >
-    <MenuOption on:click={() => (modal = "newdialogue")}
-      >New Dialogue</MenuOption
-    >
-    <MenuOption on:click={() => console.log("newchoose")}>New Choose</MenuOption
-    >
-    <MenuOption on:click={() => console.log("download")}
-      >Download Datapack</MenuOption
-    >
-  </Menu>
+    <Menu {...pos} on:close={() => (contextmenu = "")}>
+        <MenuOption on:click={() => (modal = "newdialogue")}>
+            New Dialogue
+        </MenuOption>
+        <MenuOption on:click={() => (modal = "newchoose")}>
+            New Choose
+        </MenuOption>
+        <MenuOption on:click={() => console.log("download")}>
+            Download Datapack
+        </MenuOption>
+    </Menu>
 {:else if contextmenu == "node"}
-  <Menu
-    {...pos}
-    on:clickoutside={() => (contextmenu = "")}
-    on:close={() => (contextmenu = "")}
-  >
-    <MenuOption on:click={() => console.log("editnode")}>Edit</MenuOption>
-    <MenuOption on:click={() => console.log("deletenode")}>Delete</MenuOption>
-  </Menu>
+    <Menu {...pos} on:close={() => (contextmenu = "")}>
+        <MenuOption on:click={() => console.log("editnode")}>Edit</MenuOption>
+        <MenuOption on:click={() => editor.removeNode(editor.selected.list[0])}>
+            Delete
+        </MenuOption>
+    </Menu>
 {/if}
 
-Menu
 {#if modal == "newdialogue"}
-  <ModalDialogue
-    on:close={() => (modal = "")}
-    on:create={() => createDialogue()}
-  />
+    <ModalDialogue
+        on:close={closeModal}
+        on:create={() => createDialogueNode()}
+    />
+{:else if modal == "newchoose"}
+    <ModalDialogue multiple={true} on:close={closeModal} />
 {/if}
+
+<SnackbarFactory bind:this={snackbar} />

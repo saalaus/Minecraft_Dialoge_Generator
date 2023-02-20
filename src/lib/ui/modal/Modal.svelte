@@ -1,21 +1,21 @@
 <script>
     import { createEventDispatcher } from "svelte";
-    import { input_text } from "../stores";
+    import { input_text } from "../../stores";
 
+    export let name = undefined;
 
-    export let name = undefined; 
-
-    let dispatch = createEventDispatcher()
-    function close(){
-        dispatch("close")
-        input_text.set("")
+    let dispatch = createEventDispatcher();
+    function close() {
+        dispatch("close");
+        input_text.set("");
     }
-    function keypress(e){
-        if (e.key === "Escape"){
-            close()
+    function keypress(e) {
+        if (e.key === "Escape") {
+            close();
         }
     }
 </script>
+
 <svelte:window on:keydown={keypress} />
 
 <div class="modal">
@@ -37,7 +37,7 @@
 </div>
 
 <style>
-    .modal{
+    .modal {
         position: fixed;
         z-index: 1;
         padding-top: 100px;
@@ -49,24 +49,25 @@
         background-color: rgba(0, 0, 0, 0.4);
     }
 
-    .modal-content{
+    .modal-content {
         position: relative;
         margin: auto;
         padding: 0;
         width: 80%;
     }
 
-    .modal-header{
+    .modal-header {
         padding: 2px 16px;
         color: white;
     }
 
-    .modal-body{
+    .modal-body {
         padding: 2px 16px;
     }
 
-    .modal-footer{
+    .modal-footer {
         padding: 2px 16px;
         color: white;
     }
 </style>
+
