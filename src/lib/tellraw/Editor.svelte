@@ -6,13 +6,12 @@
     import InputGroup from "./InputGroup.svelte";
 
     export let multiple = false;
-    export let additionalInput = 0;
-    $: console.log(additionalInput);
+    export let additionalInput = 1;
     let input;
     let inputInterval;
     let selectColor;
     let input_list = [];
-    $: console.log(input_list)
+    $: console.log(input_list);
 
     const textApplier = {
         bold: createClassApplier("bold"),
@@ -41,6 +40,11 @@
     };
 
     const allApplier = { ...textApplier, ...colorApplier };
+
+    export function getInput() {
+        if (multiple) return [{component: input}, ...input_list];
+        else return input;
+    }
 
     function toggleApplier(classapplier) {
         classapplier.toggleSelection();
@@ -111,55 +115,56 @@
 
 <div class="editor_text-inputs">
     <div class="editor_text-input">
-        <Input bind:element={input_list[0]} bind:this={input} on:focus={onfocus} on:blur={onblur} />
+        <Input
+            bind:element={input}
+            on:focus={onfocus}
+            on:blur={onblur} />
         {#if multiple}
-            <Button class="add-input" on:click={() => (additionalInput += 1)}
-                >+</Button
-            >
+            <Button
+                class="add-input"
+                on:click={() => {
+                    input_list = input_list.concat({ id: additionalInput });
+                    // input_list = input_list
+                    additionalInput += 1;
+                }}>+</Button>
         {/if}
     </div>
-    {#each Array(additionalInput) as _, i}
+    {#each input_list as item, i (item.id)}
         <InputGroup
-            bind:element={input_list[i+1]}
+            bind:element={item.component}
             on:kill={(e) => {
-                e.detail.remove();
-                console.log(e)
-                input_list.splice(i+1, 1)
-                console.log(input_list)
-                /* additionalInput -= 1; */
+                console.log(e);
+                input_list = input_list.filter(e => e != item)
+                console.log(input_list);
             }}
-        />
+            id={item.id} />
     {/each}
 </div>
 <div class="text-edit">
-    <div style="display: flex;" class="btn-group">
+    <div
+        style="display: flex;"
+        class="btn-group">
         <Button
             data_edit="bold"
-            on:click={() => toggleApplier(textApplier.bold)}>B</Button
-        >
+            on:click={() => toggleApplier(textApplier.bold)}>B</Button>
         <Button
             data_edit="italic"
-            on:click={() => toggleApplier(textApplier.italic)}>I</Button
-        >
+            on:click={() => toggleApplier(textApplier.italic)}>I</Button>
         <Button
             data_edit="underline"
-            on:click={() => toggleApplier(textApplier.underline)}>U</Button
-        >
+            on:click={() => toggleApplier(textApplier.underline)}>U</Button>
         <Button
             data_edit="strike"
-            on:click={() => toggleApplier(textApplier.strike)}>S</Button
-        >
+            on:click={() => toggleApplier(textApplier.strike)}>S</Button>
         <Button
             data_edit="obfuscated"
-            on:click={() => toggleApplier(textApplier.obfuscated)}>O</Button
-        >
+            on:click={() => toggleApplier(textApplier.obfuscated)}>O</Button>
         <Button on:click={() => clearSelection()}>R</Button>
     </div>
     <div class="color-choose_container">
         <ColorChoose
             on:change={(e) => changeColor(colorApplier[e.detail])}
-            bind:this={selectColor}
-        />
+            bind:this={selectColor} />
     </div>
 </div>
 

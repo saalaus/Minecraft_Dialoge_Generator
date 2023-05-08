@@ -11,7 +11,6 @@
     onMount(() => {
         editor = createEngine(element);
         console.log(editor);
-        window.editor = editor;
     });
 </script>
 

@@ -22,19 +22,26 @@ body {
 .output-title *{
     display: inline;
 }
-.node.dialogue{
+.node{
     display: flex;
-    flex-direction: row-reverse;
     background: rgba(33, 33, 33, 0.8) !important;
     border: 2px solid rgb(85, 85, 85) !important;
     box-shadow: 0 0 0 1px black;
 }
 
-.node.dialogue:hover{
+.choose{
+    flex-direction: column;
+}
+
+.dialogue{
+    flex-direction: row-reverse;
+}
+
+.node:hover{
     background: rgba(33, 33, 33, 1);
 }
 
-.dialogue.selected{
+.node.selected{
     background: rgba(170, 127, 16, 1) !important;
     border: 1px solid black !important;
     box-shadow: none;
@@ -42,6 +49,11 @@ body {
 
 .dialogue > .input {
     flex: auto; 
+}
+
+.choose >.input {
+    flex: auto;
+    position: absolute;
 }
 
 .socket {

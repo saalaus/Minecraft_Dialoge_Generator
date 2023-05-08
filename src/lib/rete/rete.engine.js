@@ -4,9 +4,11 @@ import SvelteRenderPlugin from "rete-svelte-render-plugin";
 import Dialogue, { socket } from "./rete.components/dialogue";
 import AreaPlugin from "rete-area-plugin";
 import htmlToTellraw from "../tellraw/generate";
+import Choose from "./rete.components/choose";
+import RecursionPlugin from "./plugins/recursiondetection";
 
 
-export const components = [new Dialogue()];
+export const components = [new Dialogue(), new Choose()];
 
 function registerComponents(editor, engine) {
     components.forEach((e) => {
@@ -23,6 +25,8 @@ function loadPlugins(editor) {
         background: document.createElement("div"),
         scaleExtent: { min: 0.1, max: 1 },
     });
+
+    editor.use(RecursionPlugin)
 }
 
 export default function createEditor(element) {
@@ -35,10 +39,9 @@ export default function createEditor(element) {
     return editor;
 }
 
-export function createDialogue(editor, input_text) {
-    const pos = [editor.view.area.mouse.x, editor.view.area.mouse.y];
-    const display = input_text.innerHTML;
-    const tellraw = htmlToTellraw(input_text);
+export function createDialogue(editor, input_el) {
+    const display = input_el.innerHTML;
+    const tellraw = htmlToTellraw(input_el);
     Promise.resolve(
         components[0].createNode({
             display: display,
@@ -46,9 +49,34 @@ export function createDialogue(editor, input_text) {
             time: 0,
         })
     ).then(function (node) {
-        node.position = pos;
+        node.position = [editor.view.area.mouse.x, editor.view.area.mouse.y];
         node.addOutput(new Rete.Output("next", display, socket, false));
         editor.addNode(node);
         console.log(node)
     });
+}
+
+export function createChoose(editor, input_list){
+    let outputs = [];
+    input_list.forEach(input => {
+        const html = input.component.innerHTML;
+        const tellraw = htmlToTellraw(input.component);
+        outputs.push({html: html, tellraw: tellraw})
+    })
+    
+    Promise.resolve(
+        components[1].createNode({
+            time: 0,
+            outputs: outputs
+        })
+    ).then(function(node) {
+        node.position = [editor.view.area.mouse.x, editor.view.area.mouse.y];
+        let add = 0
+        outputs.forEach((output, index) => {
+            node.addOutput(new Rete.Output("next"+index, output.html, socket, false));
+            add++
+        })
+        editor.addNode(node);
+        console.log(node);
+    })
 }

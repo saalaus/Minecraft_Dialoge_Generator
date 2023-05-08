@@ -5,10 +5,11 @@
 
     let element_group;
     export let element;
+    export let id;
     const dispatch = createEventDispatcher();
 
     function removeInput(){
-            dispatch("kill", element_group)
+            dispatch("kill", id)
     }
 </script>
 

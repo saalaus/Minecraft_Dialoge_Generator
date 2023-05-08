@@ -5,7 +5,7 @@
     import Menu from "./lib/ui/contextmenu/Menu.svelte";
     import MenuOption from "./lib/ui/contextmenu/MenuOption.svelte";
     import { input_text } from "./lib/stores";
-    import { createDialogue } from "./lib/rete/rete.engine";
+    import { createChoose, createDialogue } from "./lib/rete/rete.engine";
     import SnackbarFactory from "./lib/ui/snackbar/SnackbarFactory.svelte";
 
     let contextmenu = "";
@@ -14,10 +14,8 @@
     let snackbar;
 
     onMount(() => {
-        snackbar.create("test", 100000000);
-        snackbar.create("My new toast", 2000);
-        snackbar.create("Test", 3000);
         editor.on("contextmenu", (e) => {
+            console.log(e)
             e.e.preventDefault();
             pos = { x: e.e.clientX, y: e.e.clientY };
 
@@ -46,10 +44,16 @@
         });
     });
 
-    function createDialogueNode() {
-        createDialogue(editor, $input_text);
+    function createDialogueNode(e) {
+        console.log(e)
+        createDialogue(editor, e.detail);
         closeModal();
         snackbar.create("Create dialogue");
+    }
+
+    function createChooseNode(e){
+        console.log(e)
+        createChoose(editor, e.detail);
     }
 
     function onPageClick(e) {
@@ -112,10 +116,10 @@
 {#if modal == "newdialogue"}
     <ModalDialogue
         on:close={closeModal}
-        on:create={() => createDialogueNode()}
+        on:create={createDialogueNode}
     />
 {:else if modal == "newchoose"}
-    <ModalDialogue multiple={true} on:close={closeModal} />
+    <ModalDialogue multiple={true} on:close={closeModal} on:create={createChooseNode} />
 {/if}
 
 <SnackbarFactory bind:this={snackbar} />

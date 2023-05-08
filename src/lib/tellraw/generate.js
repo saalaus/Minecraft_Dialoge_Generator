@@ -8,7 +8,7 @@ function getParentElements(node, stopElement) {
 }
 
 export default function htmlToTellraw(inputElement) {
-    let json = [""];
+    let json = [];
 
     let text_nodes = document.createTreeWalker(
         inputElement,
