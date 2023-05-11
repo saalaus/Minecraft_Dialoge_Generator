@@ -6,16 +6,21 @@
 
     const dispatch = createEventDispatcher()
     let input;
+    let time;
     export let multiple = false;
     function create(){
-        dispatch("create", input.getInput())
+        const data = {
+            input: input.getInput(),
+            time: time
+        }
+        dispatch("create", data)
     }
 </script>
 
 
 <Modal name="New Dialogue" on:close>
     <div slot="body">
-        <Editor {multiple} bind:this={input}/>
+        <Editor {multiple} bind:this={input} bind:time/>
     </div>
     <div slot="footer" style="display: flex; justify-content: space-evenly;">
         <Button on:click={() => create()}>Create</Button>

@@ -11,6 +11,7 @@
     let inputInterval;
     let selectColor;
     let input_list = [];
+    export let time;
     $: console.log(input_list);
 
     const textApplier = {
@@ -140,6 +141,7 @@
             id={item.id} />
     {/each}
 </div>
+<input type="number" placeholder="time" class="text-input" bind:value={time}>
 <div class="text-edit">
     <div
         style="display: flex;"
@@ -195,5 +197,25 @@
     .editor_text-inputs {
         overflow-y: auto;
         max-height: 200px;
+    }
+
+    .text-input{
+        padding: 0.75em 0.75em 0.75em 0.75em;
+        border: 0.0625em solid #a0a0a0;
+        background-color: black;
+        color: white;
+        outline: none;
+        font: 12pt "Minecraftia", sans-serif;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 50px;
+        margin: 12px;
+        text-align: center;
+        appearance: none;
+    }
+
+    .text-input::-webkit-outer-spin-button,
+    .text-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
     }
 </style>
