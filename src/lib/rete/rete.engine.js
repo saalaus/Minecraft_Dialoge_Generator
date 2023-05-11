@@ -6,6 +6,7 @@ import AreaPlugin from "rete-area-plugin";
 import htmlToTellraw from "../tellraw/generate";
 import Choose from "./rete.components/choose";
 import RecursionPlugin from "./plugins/recursiondetection";
+import { engine } from "../stores";
 
 
 export const components = [new Dialogue(), new Choose()];
@@ -31,28 +32,29 @@ function loadPlugins(editor) {
 
 export default function createEditor(element) {
     const editor = new Rete.NodeEditor("dialogue-generator@2.0.0", element);
-    const engine = new Rete.Engine("dialogue-generator@2.0.0");
+    const rete_engine = new Rete.Engine("dialogue-generator@2.0.0");
+    engine.set(rete_engine)
 
     loadPlugins(editor);
-    registerComponents(editor, engine);
+    registerComponents(editor, rete_engine);
 
     return editor;
 }
 
-export function createDialogue(editor, input_el) {
+export function createDialogue(editor, input_el, time) {
     const display = input_el.innerHTML;
     const tellraw = htmlToTellraw(input_el);
     Promise.resolve(
         components[0].createNode({
             display: display,
             tellraw: tellraw,
-            time: 0,
+            time: time,
         })
     ).then(function (node) {
         node.position = [editor.view.area.mouse.x, editor.view.area.mouse.y];
         node.addOutput(new Rete.Output("next", display, socket, false));
         editor.addNode(node);
-        console.log(node)
+        console.log(node);
     });
 }
 
