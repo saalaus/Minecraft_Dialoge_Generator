@@ -22,16 +22,18 @@ export default class Dialogue extends Rete.Component {
     // }
 
     code(node, inputs, data) {
+        console.log(node, inputs)
         let time = node.data.time
+        const trigger = inputs.prev[0]?inputs.prev[0].trigger:1
         if (inputs.prev[0] != undefined) {
-            time = time + inputs.prev[0];
+            time = time + inputs.prev[0].time;
         }
         const cmd = `tellraw @a[scores={${data.timer}=${time},${
             data.trigger
-        }=${data.current_trigger}}] ${JSON.stringify(node.data.tellraw)}\n`;
+        }=${trigger}}] ${JSON.stringify(node.data.tellraw)}\n`;
         return {
             cmd: cmd,
-            outputs: { next: node.data.time },
+            outputs: { next: {time: node.data.time, trigger: trigger} },
         };
     }
 }

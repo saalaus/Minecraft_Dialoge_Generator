@@ -48,7 +48,7 @@
 
     function createDialogueNode(e) {
         console.log(e);
-        const time = e.detail.time ? e.detail.time : 20
+        const time = e.detail.time != undefined ? e.detail.time : 20
         createDialogue(editor, e.detail.input, time);
         closeModal();
         snackbar.create("Create dialogue");
@@ -102,11 +102,12 @@
                 const code = c.code(node, inputs, {
                     trigger: trigger_name,
                     timer: timer_name,
-                    current_trigger: 1,
                     current_time: 0
                 });
                 string += code.cmd;
-                outputs.next = code.outputs.next;
+                Object.keys(node.outputs).forEach(key => {
+                    outputs[key] = code.outputs[key]
+                })
             };
             c.worker.bind(c);
 
