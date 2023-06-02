@@ -81,7 +81,8 @@
         color: #23232a;
     }
 
-    .btn.toggle{
+    /* TODO: uncomment for activate buttons */
+    /* .btn.toggle{
         border-bottom-color: transparent;
         outline: none;
         border-width: 4px 0 0;
@@ -91,5 +92,5 @@
     .btn-primary.toggle{
         border-bottom-color: #3b8526;
         background-color: #4bbc22;
-    }
+    } */
 </style>
