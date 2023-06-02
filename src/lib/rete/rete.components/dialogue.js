@@ -33,7 +33,7 @@ export default class Dialogue extends Rete.Component {
         }=${trigger}}] ${JSON.stringify(node.data.tellraw)}\n`;
         return {
             cmd: cmd,
-            outputs: { next: {time: node.data.time, trigger: trigger} },
+            outputs: { next: {time: time, trigger: trigger} },
         };
     }
 }

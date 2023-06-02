@@ -58,7 +58,7 @@ export function createDialogue(editor, input_el, time) {
     });
 }
 
-export function createChoose(editor, input_list){
+export function createChoose(editor, input_list, time){
     let outputs = [];
     input_list.forEach(input => {
         const html = input.component.innerHTML;
@@ -68,7 +68,7 @@ export function createChoose(editor, input_list){
     
     Promise.resolve(
         components[1].createNode({
-            time: 0,
+            time: time,
             outputs: outputs
         })
     ).then(function(node) {

@@ -56,7 +56,9 @@
 
     function createChooseNode(e) {
         console.log(e);
-        createChoose(editor, e.detail);
+        const time = e.detail.time != undefined ? e.detail.time : 20
+        createChoose(editor, e.detail.input, time);
+        closeModal();
     }
 
     function onPageClick(e) {

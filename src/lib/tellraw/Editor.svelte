@@ -141,7 +141,10 @@
             id={item.id} />
     {/each}
 </div>
-<input type="number" placeholder="time" class="text-input" bind:value={time}>
+<div class="time-container" data-hover="Delay before dialog in ticks (20 by default(1 seconds))">
+    <input type="number" placeholder="time" class="text-input" bind:value={time}/>
+
+</div>
 <div class="text-edit">
     <div
         style="display: flex;"
@@ -217,5 +220,27 @@
     .text-input::-webkit-outer-spin-button,
     .text-input::-webkit-inner-spin-button {
         -webkit-appearance: none;
+    }
+
+    .time-container:before{
+        content: attr(data-hover);
+        visibility: hidden;
+        opacity: 0;
+        width: 140px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 5px;
+        padding: 5px 0;
+        transition: opacity 1s ease-in-out;
+        position: absolute;
+        z-index: 1;
+        left: 10%;
+        top: 42%;
+    }
+
+    .time-container:hover:before{
+        opacity: 1;
+        visibility: visible;
     }
 </style>
