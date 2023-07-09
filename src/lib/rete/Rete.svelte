@@ -4,13 +4,12 @@
 
 <script>
     import { onMount } from "svelte";
-    import createEngine from "./rete.engine";
+    import createEngine from "./engine";
 
     let element;
 
     onMount(() => {
         editor = createEngine(element);
-        console.log(editor);
     });
 </script>
 

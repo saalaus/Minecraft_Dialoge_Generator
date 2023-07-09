@@ -5,9 +5,8 @@
     import Menu from "./lib/ui/contextmenu/Menu.svelte";
     import MenuOption from "./lib/ui/contextmenu/MenuOption.svelte";
     import { engine, input_text } from "./lib/stores";
-    import { createChoose, createDialogue } from "./lib/rete/rete.engine";
+    import { createChoose, createDialogue } from "./lib/rete/engine";
     import SnackbarFactory from "./lib/ui/snackbar/SnackbarFactory.svelte";
-    import { ControlBinder } from "rete-svelte-render-plugin";
 
     let contextmenu = "";
     let modal = "";
@@ -15,35 +14,35 @@
     let snackbar;
 
     onMount(() => {
-        console.log($engine.components.values());
-        editor.on("contextmenu", (e) => {
-            console.log(e);
-            e.e.preventDefault();
-            pos = { x: e.e.clientX, y: e.e.clientY };
+        // console.log($engine.components.values());
+        // editor.on("contextmenu", (e) => {
+        //     console.log(e);
+        //     e.e.preventDefault();
+        //     pos = { x: e.e.clientX, y: e.e.clientY };
 
-            if (e.e.target.classList.contains("rete-background"))
-                deselectNode();
-            if (
-                e.e.target.classList.contains("input") ||
-                e.e.target.classList.contains("input-title") ||
-                e.e.target.classList.contains("output") ||
-                e.e.target.classList.contains("output-title")
-            ) {
-                contextmenu = "node";
-                e.node ? editor.selectNode(e.node) : null;
-                return;
-            }
-            contextmenu = "bg";
-            console.log("RC: ", e);
-        });
+        //     if (e.e.target.classList.contains("rete-background"))
+        //         deselectNode();
+        //     if (
+        //         e.e.target.classList.contains("input") ||
+        //         e.e.target.classList.contains("input-title") ||
+        //         e.e.target.classList.contains("output") ||
+        //         e.e.target.classList.contains("output-title")
+        //     ) {
+        //         contextmenu = "node";
+        //         e.node ? editor.selectNode(e.node) : null;
+        //         return;
+        //     }
+        //     contextmenu = "bg";
+        //     console.log("RC: ", e);
+        // });
 
-        editor.on("zoom translate nodetranslate", () => {
-            contextmenu = "";
-        });
+        // editor.on("zoom translate nodetranslate", () => {
+        //     contextmenu = "";
+        // });
 
-        editor.on("rendernode", ({ el, node }) => {
-            el.addEventListener("click", () => editor.selectNode(node));
-        });
+        // editor.on("rendernode", ({ el, node }) => {
+        //     el.addEventListener("click", () => editor.selectNode(node));
+        // });
     });
 
     function createDialogueNode(e) {
