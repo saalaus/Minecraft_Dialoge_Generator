@@ -49,6 +49,8 @@
     .choice_color {
         font-family: "Minecraftia";
         outline: none;
+        height: 54px;
+        font-size: 20pt;
     }
 
     .bg-white {

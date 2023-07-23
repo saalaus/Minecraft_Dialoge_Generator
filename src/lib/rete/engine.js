@@ -44,16 +44,52 @@ export default async function createEditor(element) {
 
     await testNodes(editor, area);
 
-    area.addPipe((context) => {
-        if (context.type == "contextmenu") {
-            console.log(context);
-        }
-        return context;
-    });
-
     return {
         destroy: () => area.destroy(),
+        area: area
     };
+}
+
+function createContextMenu(render){
+    const contextMenu = new ContextMenuPlugin({
+        items(context, plugin) {
+            if (context === "root") {
+                return {
+                    searchBar: false,
+                    list: [
+                        {
+                            label: "Create dialogue",
+                            key: "1",
+                            handler: () => console.log(1),
+                        },
+                        {
+                            label: "Create choose",
+                            key: "2",
+                            handler: () => console.log(2),
+                        },
+                        {
+                            label: "Download datapack",
+                            key: "3",
+                            handler: () => console.log(3),
+                        },
+                    ],
+                };
+            }
+            return {
+                searchBar: false,
+                list: [
+                    {
+                        label: "Create dialogue",
+                        key: "1",
+                        handler: () => console.log(1),
+                    },
+                ],
+            };
+        },
+    });
+    
+    return contextMenu
+
 }
 
 function createRender() {
@@ -74,6 +110,8 @@ function createRender() {
             },
         })
     );
+
+    render.addPreset(Presets.contextMenu.setup());
 
     return render;
 }

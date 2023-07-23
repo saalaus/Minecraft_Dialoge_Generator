@@ -3,13 +3,36 @@
 </script>
 
 <script>
-    import { onMount } from "svelte";
+    import { createEventDispatcher, onMount } from "svelte";
     import createEngine from "./engine";
 
     let element;
+    const dispatch = createEventDispatcher()
 
     onMount(() => {
-        editor = createEngine(element);
+        createEngine(element).then(data => {
+            data.area.addPipe((context) => {
+                switch (context.type){
+                    case "contextmenu":
+                        const pos = { x: context.data.event.clientX, y: context.data.event.clientY };
+                        console.log(context)
+                        dispatch("contextmenu", {type: "bg", pos: pos})
+                        return false
+                    case "nodetranslate":
+                        dispatch("contextmenu", {type: ""})
+                        return context
+                    case "zoom":
+                        dispatch("contextmenu", {type: ""})
+                        return context
+                    case "translate":
+                        dispatch("contextmenu", {type: ""})
+                        return context
+                    default:
+                        return context
+                }
+            });
+        });
+
     });
 </script>
 

@@ -123,9 +123,13 @@
 
 <svelte:body
     on:click={onPageClick}
-    on:keyup={keyup} />
+    on:keyup={keyup} 
+    on:contextmenu|preventDefault={() => {}}/>
 
-<Rete />
+<Rete on:contextmenu={(e) => {
+    pos = e.detail.pos;
+    contextmenu = e.detail.type
+}}/>
 
 {#if contextmenu == "bg"}
     <Menu

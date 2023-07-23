@@ -48,3 +48,27 @@ body {
     flex: auto;
     position: absolute;
 }
+
+.rete-context-menu {
+    width: 250px !important;
+    background-color: #484848;
+    padding: 2px !important;
+    box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.4), inset -2px 0px 0px 0px rgba(0, 0, 0, 0.4), inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4), inset 2px 0px 0px 0px rgba(255, 255, 255, 0.4) !important;
+}
+
+.block {
+    padding: 0.5rem 1.5rem 0.5rem 1rem !important;
+    width: 100% !important;
+    cursor: pointer;
+    font-family: Minecraftia;
+    color: white !important;
+    font-size: 16px !important;
+    box-sizing: border-box !important;
+    background-color: #484848 !important;
+    border-bottom: none !important;
+    border-radius: 0 !important;
+}
+
+.block:hover{
+    background-color: #8b8b8b !important;
+}

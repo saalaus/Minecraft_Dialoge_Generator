@@ -1,10 +1,20 @@
 <script>
     // svelte-ignore unused-export-let
-    export let data;
+    export let sourceOutput;
+    // svelte-ignore unused-export-let
+    export let id;
+    // svelte-ignore unused-export-let
+    export let source;
+    // svelte-ignore unused-export-let
+    export let target;
+    // svelte-ignore unused-export-let
+    export let targetInput;
     // svelte-ignore unused-export-let
     export let start;
     // svelte-ignore unused-export-let
     export let end;
+    // svelte-ignore unused-export-let
+    export let isPseudo;
     export let path;
 </script>
 
@@ -31,11 +41,11 @@
         pointer-events: auto;
     }
     .one {
-        stroke-width: 2px;
+        stroke-width: 3px;
         stroke: black;
     }
     .two {
-        stroke-width: 1px;
+        stroke-width: 2px;
         stroke: white;
     }
 </style>
