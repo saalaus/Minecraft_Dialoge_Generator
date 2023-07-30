@@ -189,6 +189,7 @@
     .color-choose_container {
         display: flex;
         align-items: center;
+        width: 200px;
     }
     .editor_text-input {
         display: flex;

@@ -1,6 +1,7 @@
 <script>
     // TODO: Custom select
     import { createEventDispatcher } from "svelte";
+    import Select from "./select/Select.svelte"
 
     const dispatch = createEventDispatcher();
     let bg_class = "bg-white";
@@ -22,7 +23,7 @@
     }
 </script>
 
-<select
+<!-- <select
     class="choice_color {bg_class}"
     on:change={onChange}
     bind:this={element}
@@ -43,7 +44,8 @@
     <option value="red" class="bg-red">Red</option>
     <option value="light_purple" class="bg-light_purple">Light Purple</option>
     <option value="yellow" class="bg-yellow">Yellow</option>
-</select>
+</select> -->
+<Select />
 
 <style>
     .choice_color {
