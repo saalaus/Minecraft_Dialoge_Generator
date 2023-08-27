@@ -1,7 +1,7 @@
 <script>
-    import Button from "../ui/Button.svelte";
-    import Input from "../ui/Input.svelte";
-    import ColorChoose from "../ui/ColorChoose.svelte";
+    import Button from "@ui/Button.svelte";
+    import Input from "@ui/Input.svelte";
+    import ColorChoose from "@ui/ColorChoose.svelte";
     import { createClassApplier } from "rangy-classapplier";
     import InputGroup from "./InputGroup.svelte";
 
@@ -119,7 +119,7 @@
         <Input
             bind:element={input}
             on:focus={onfocus}
-            on:blur={onblur} />
+            on:blur={onblur}/>
         {#if multiple}
             <Button
                 class="add-input"
@@ -173,7 +173,7 @@
     </div>
 </div>
 
-<style>
+<style lang="scss">
     * {
         margin: 5px;
     }
@@ -186,21 +186,26 @@
         display: flex;
         justify-content: space-evenly;
     }
+
     .color-choose_container {
         display: flex;
         align-items: center;
         width: 200px;
     }
-    .editor_text-input {
-        display: flex;
-        justify-content: space-between;
-    }
-    .editor_text-input :global(.text-input) {
-        margin-right: 5px;
-    }
-    .editor_text-inputs {
-        overflow-y: auto;
-        max-height: 200px;
+    .editor_text{
+        &-input{
+            display: flex;
+            justify-content: space-between;
+            & :global(.text-input){
+                margin-right: 5px;
+            }
+
+            &s{
+                overflow-y: auto;
+                max-height: 200px;
+            }
+
+        }
     }
 
     .text-input{
@@ -216,32 +221,36 @@
         margin: 12px;
         text-align: center;
         appearance: none;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
     }
 
-    .text-input::-webkit-outer-spin-button,
-    .text-input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-    }
+    .time-container{
+        &:before{
+            content: attr(data-hover);
+            visibility: hidden;
+            opacity: 0;
+            width: 140px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px 0;
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            z-index: 1;
+            left: 115px;
+            top: 150px;
+        }
 
-    .time-container:before{
-        content: attr(data-hover);
-        visibility: hidden;
-        opacity: 0;
-        width: 140px;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        border-radius: 5px;
-        padding: 5px 0;
-        transition: opacity 1s ease-in-out;
-        position: absolute;
-        z-index: 1;
-        left: 10%;
-        top: 42%;
-    }
+        &:hover:before{
+            opacity: 1;
+            visibility: visible;
+        }
 
-    .time-container:hover:before{
-        opacity: 1;
-        visibility: visible;
     }
 </style>

@@ -29,9 +29,9 @@
 
 <style>
     .context-menu{
-    position: absolute;
-    background-color: #484848;
-    padding: 2px;
-    box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.4), inset -2px 0px 0px 0px rgba(0, 0, 0, 0.4), inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4), inset 2px 0px 0px 0px rgba(255, 255, 255, 0.4);
+        position: absolute;
+        background-color: #484848;
+        padding: 2px;
+        box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.4), inset -2px 0px 0px 0px rgba(0, 0, 0, 0.4), inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4), inset 2px 0px 0px 0px rgba(255, 255, 255, 0.4);
     }
 </style>

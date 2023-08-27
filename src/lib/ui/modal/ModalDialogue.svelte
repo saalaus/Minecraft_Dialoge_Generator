@@ -1,7 +1,7 @@
 <script>
     import Modal from "./Modal.svelte"
-    import Editor from "../../tellraw/Editor.svelte";
-    import Button from "../Button.svelte";
+    import Editor from "@project/tellraw/Editor.svelte";
+    import Button from "@ui/Button.svelte";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher()

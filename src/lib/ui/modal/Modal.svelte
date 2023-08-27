@@ -36,7 +36,7 @@
     </div>
 </div>
 
-<style>
+<style lang="scss">
     .modal {
         position: fixed;
         z-index: 1;
@@ -47,27 +47,24 @@
         height: 100%;
         overflow: auto;
         background-color: rgba(0, 0, 0, 0.4);
-    }
 
-    .modal-content {
-        position: relative;
-        margin: auto;
-        padding: 0;
-        width: 80%;
-    }
-
-    .modal-header {
-        padding: 2px 16px;
-        color: white;
-    }
-
-    .modal-body {
-        padding: 2px 16px;
-    }
-
-    .modal-footer {
-        padding: 2px 16px;
-        color: white;
+        &-header{
+            padding: 2px 16px;
+            color: white;
+        }
+        &-body{
+            padding: 2px 16px;
+        }
+        &-content{
+            position: relative;
+            margin: auto;
+            padding: 0;
+            width: 80%;
+        }
+        &-footer{
+            padding: 2px 16px;
+            color: white;
+        }
     }
 </style>
 

@@ -1,12 +1,12 @@
 <script>
-    import Rete, { editor } from "./lib/rete/Rete.svelte";
+    import Rete, { editor } from "@project/rete/Rete.svelte";
     import { onMount } from "svelte";
-    import ModalDialogue from "./lib/ui/modal/ModalDialogue.svelte";
-    import Menu from "./lib/ui/contextmenu/Menu.svelte";
-    import MenuOption from "./lib/ui/contextmenu/MenuOption.svelte";
-    import { engine, input_text } from "./lib/stores";
-    import { createChoose, createDialogue } from "./lib/rete/engine";
-    import SnackbarFactory from "./lib/ui/snackbar/SnackbarFactory.svelte";
+    import ModalDialogue from "@ui/modal/ModalDialogue.svelte";
+    import Menu from "@ui/contextmenu/Menu.svelte";
+    import MenuOption from "@ui/contextmenu/MenuOption.svelte";
+    import { engine, input_text } from "@project/stores";
+    import { createChoose, createDialogue } from "@project/rete/engine";
+    import SnackbarFactory from "@ui/snackbar/SnackbarFactory.svelte";
 
     let contextmenu = "";
     let modal = "";

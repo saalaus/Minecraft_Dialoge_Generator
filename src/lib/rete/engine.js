@@ -7,7 +7,6 @@ import {
 import { SveltePlugin, Presets } from "rete-svelte-plugin";
 
 import htmlToTellraw from "../tellraw/generate";
-import { engine } from "../stores";
 
 import Node from "./components/Node.svelte";
 import Connection from "./components/Connection.svelte";

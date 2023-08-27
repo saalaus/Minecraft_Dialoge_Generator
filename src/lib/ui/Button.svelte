@@ -11,10 +11,10 @@
     </div>
 </button>
 
-<style>
+<style lang="scss">
     .btn{
-    --bezel-color: rgba(0, 0, 0, 0.4);
-    --bezel-color-invert: rgba(255, 255, 255, 0.4);
+        --bezel-color: rgba(0, 0, 0, 0.4);
+        --bezel-color-invert: rgba(255, 255, 255, 0.4);
     }
 
     .btn{
@@ -28,45 +28,34 @@
         box-sizing: border-box;
         text-transform: uppercase;
         box-shadow: inset 0px -2px 0px 0px var(--bezel-color), inset -2px 0px 0px 0px var(--bezel-color), inset 0px 2px 0px 0px var(--bezel-color-invert), inset 2px 0px 0px 0px var(--bezel-color-invert);
-    }
 
-    .btn-secondary{
-        border-bottom-color: #58585a;
-        background-color: #d0d1d4;
-    }
+        &-secondary{
+            border-bottom-color: #58585a;
+            background-color: #d0d1d4;
+            &:hover{
+                background-color: #f4f6f9;
+            }
 
-    .btn-secondary:hover{
-        background-color: #f4f6f9;
-    }
+            & > .title{
+                color: #23232a;
+            }
+        }
 
-    .btn-primary{
-        background-color: #3b8526;
-        border-bottom-color: #1d4d13;
-    }
+        &-primary{
+            background-color: #3b8526;
+            border-bottom-color: #1d4d13;
+            &:hover{
+                background-color: #50ad2e;
+            }
+        }
 
-    .btn-primary:hover{
-        background-color: #50ad2e;
-    }
-
-    .btn-negative{
-        background-color: red;
-        border-bottom-color: darkred;
-    }
-
-    .btn-negative:hover{
-        background-color: #e91313;  
-    }
-
-    .btn:active{
-        border-bottom-color: transparent;
-        outline: none;
-        border-width: 4px 0 0;
-        box-shadow: inset 0px -2px 0px 0px var(--bezel-color-invert), inset -2px 0px 0px 0px var(--bezel-color-invert), inset 0px 2px 0px 0px var(--bezel-color), inset 2px 0px 0px 0px var(--bezel-color);
-    }
-
-    .btn-primary:active{
-        border-bottom-color: #3b8526;
-        background-color: #4bbc22;
+        &-negative{
+            background-color: red;
+            border-bottom-color: darkred;
+            &-hover{
+                background-color: #e91313;
+            }
+        }
     }
 
     .title {
@@ -75,10 +64,6 @@
         font-weight: 400;
         line-height: 1.5;
         color: white;
-    }
-
-    .btn-secondary > .title{
-        color: #23232a;
     }
 
     /* TODO: uncomment for activate buttons */
@@ -92,5 +77,17 @@
     .btn-primary.toggle{
         border-bottom-color: #3b8526;
         background-color: #4bbc22;
-    } */
+    }
+    .btn:active{
+        border-bottom-color: transparent;
+        outline: none;
+        border-width: 4px 0 0;
+        box-shadow: inset 0px -2px 0px 0px var(--bezel-color-invert), inset -2px 0px 0px 0px var(--bezel-color-invert), inset 0px 2px 0px 0px var(--bezel-color), inset 2px 0px 0px 0px var(--bezel-color);
+    }
+
+    .btn-primary:active{
+        border-bottom-color: #3b8526;
+        background-color: #4bbc22;
+    }
+    */
 </style>
