@@ -9,7 +9,7 @@
     const dispatch = createEventDispatcher();
 
     function removeInput(){
-            dispatch("kill", id)
+        dispatch("kill", id)
     }
 </script>
 

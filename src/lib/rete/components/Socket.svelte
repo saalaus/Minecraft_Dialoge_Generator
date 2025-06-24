@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { ClassicPreset } from "rete";
-    export let data: ClassicPreset.Socket;
+    import type { ClassicScheme } from "rete-svelte-plugin/5";
+    export let data: ClassicScheme["Socket"];
 </script>
 
 <div

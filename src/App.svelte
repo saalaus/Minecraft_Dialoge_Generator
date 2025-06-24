@@ -1,168 +1,167 @@
-<script>
-    import Rete, { editor } from "@project/rete/Rete.svelte";
+<script lang="ts">
     import { onMount } from "svelte";
-    import ModalDialogue from "@ui/modal/ModalDialogue.svelte";
-    import Menu from "@ui/contextmenu/Menu.svelte";
-    import MenuOption from "@ui/contextmenu/MenuOption.svelte";
-    import { engine, input_text } from "@project/stores";
-    import { createChoose, createDialogue } from "@project/rete/engine";
-    import SnackbarFactory from "@ui/snackbar/SnackbarFactory.svelte";
+    import type { NodeEditor } from "rete";
+    import type { AreaPlugin } from "rete-area-plugin";
+    import type { SvelteArea2D, ClassicScheme } from "rete-svelte-plugin/5";
+    import type { ClassicPreset } from "rete";
+    import ModalDialogue from "./lib/components/ModalDialogue.svelte";
+    import Menu from "./lib/components/Menu.svelte";
+    import MenuOption from "./lib/components/MenuOption.svelte";
+    import SnackbarFactory from "./lib/components/SnackbarFactory.svelte";
+    import createEditor from "./lib/rete/engine";
 
-    let contextmenu = "";
-    let modal = "";
-    let pos = { x: 0, y: 0 };
-    let snackbar;
+    let contextMenu = false;
+    let modal = false;
+    let position = { x: 0, y: 0 };
+    let snackbar = { show: false, text: "" };
+    let editor: NodeEditor<ClassicScheme>;
+    let area: AreaPlugin<ClassicScheme, SvelteArea2D<ClassicScheme>>;
 
-    onMount(() => {
-        // console.log($engine.components.values());
-        // editor.on("contextmenu", (e) => {
-        //     console.log(e);
-        //     e.e.preventDefault();
-        //     pos = { x: e.e.clientX, y: e.e.clientY };
-
-        //     if (e.e.target.classList.contains("rete-background"))
-        //         deselectNode();
-        //     if (
-        //         e.e.target.classList.contains("input") ||
-        //         e.e.target.classList.contains("input-title") ||
-        //         e.e.target.classList.contains("output") ||
-        //         e.e.target.classList.contains("output-title")
-        //     ) {
-        //         contextmenu = "node";
-        //         e.node ? editor.selectNode(e.node) : null;
-        //         return;
-        //     }
-        //     contextmenu = "bg";
-        //     console.log("RC: ", e);
-        // });
-
-        // editor.on("zoom translate nodetranslate", () => {
-        //     contextmenu = "";
-        // });
-
-        // editor.on("rendernode", ({ el, node }) => {
-        //     el.addEventListener("click", () => editor.selectNode(node));
-        // });
+    onMount(async () => {
+        const container = document.querySelector('.editor');
+        if (container) {
+            const result = await createEditor(container);
+            editor = result.editor;
+            area = result.area;
+        }
     });
 
-    function createDialogueNode(e) {
-        console.log(e);
-        const time = e.detail.time != undefined ? e.detail.time : 20
-        createDialogue(editor, e.detail.input, time);
-        closeModal();
-        snackbar.create("Create dialogue");
+    function handleDialogue() {
+        if (!editor) return;
+        const node = editor.addNode("dialogue") as ClassicPreset.Node;
+        const pos = { x: position.x, y: position.y };
+        area.translate(node.id, pos);
+        modal = false;
+        contextMenu = false;
     }
 
-    function createChooseNode(e) {
-        console.log(e);
-        const time = e.detail.time != undefined ? e.detail.time : 20
-        createChoose(editor, e.detail.input, time);
-        closeModal();
+    function handleChoose() {
+        if (!editor) return;
+        const node = editor.addNode("choose") as ClassicPreset.Node;
+        const pos = { x: position.x, y: position.y };
+        area.translate(node.id, pos);
+        modal = false;
+        contextMenu = false;
     }
 
-    function onPageClick(e) {
-        if (
-            e.target.classList.contains("input") ||
-            e.target.classList.contains("input-title") ||
-            e.target.classList.contains("output") ||
-            e.target.classList.contains("output-title")
-        )
-            return;
-        deselectNode();
-    }
-
-    function deselectNode() {
-        const node = editor.selected.list[0];
-        if (!node) return;
-        editor.selected.list = [];
-        node.svelteContext.update();
-    }
-
-    function keyup(e) {
-        if (e.keyCode === 46) {
-            const node = editor.selected.list[0];
-            if (!node) return;
-            editor.removeNode(node);
+    function handlePageClick(event: MouseEvent) {
+        if (event.button === 2) {
+            position = { x: event.clientX, y: event.clientY };
+            contextMenu = true;
+        } else {
+            contextMenu = false;
         }
-        if (e.keyCode === 27) deselectNode();
     }
 
-    function closeModal() {
-        modal = "";
+    function handleNodeDeselect() {
+        if (!editor) return;
+        editor.selected.clear();
     }
 
-    async function download() {
-        // await $engine.process(editor.toJSON());
-        const trigger_name = "talk.trigger";
-        const timer_name = "talk.timer";
-        let string = "";
-        Array.from($engine.components.values()).forEach((c) => {
-            c = Object.assign(Object.create(Object.getPrototypeOf(c)), c);
+    function handleKeyup(event: KeyboardEvent) {
+        if (event.key === "Delete" && editor) {
+            editor.selected.each((node) => {
+                editor.removeNode(node.id);
+            });
+        }
+    }
 
-            c.worker = (node, inputs, outputs) => {
-                const code = c.code(node, inputs, {
-                    trigger: trigger_name,
-                    timer: timer_name,
-                    current_time: 0
-                });
-                string += code.cmd;
-                Object.keys(node.outputs).forEach(key => {
-                    outputs[key] = code.outputs[key]
-                })
-            };
-            c.worker.bind(c);
+    function handleModalClose() {
+        modal = false;
+        contextMenu = false;
+    }
 
-            $engine.components.set(c.name, c);
-        });
+    function downloadData() {
+        if (!editor) return;
+        const data = editor.toJSON();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "dialogue.json";
+        a.click();
+        URL.revokeObjectURL(url);
+    }
 
-        await $engine.process(editor.toJSON());
+    function uploadData(event: Event) {
+        const file = (event.target as HTMLInputElement).files?.[0];
+        if (!file || !editor) return;
 
-        console.log(string);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target?.result as string);
+                editor.fromJSON(data);
+                snackbar = { show: true, text: "Диалог успешно загружен" };
+            } catch (error) {
+                snackbar = { show: true, text: "Ошибка при загрузке диалога" };
+            }
+        };
+        reader.readAsText(file);
     }
 </script>
 
-<svelte:body
-    on:click={onPageClick}
-    on:keyup={keyup} 
-    on:contextmenu|preventDefault={() => {}}/>
+<div class="container" on:click={handleNodeDeselect} on:keyup={handleKeyup}>
+    <div class="editor" on:contextmenu|preventDefault={handlePageClick}>
+        {#if editor && area}
+            <svelte:component this={area.view} />
+        {/if}
+    </div>
 
-<Rete on:contextmenu={(e) => {
-    pos = e.detail.pos;
-    contextmenu = e.detail.type
-}}/>
+    {#if contextMenu}
+        <Menu x={position.x} y={position.y}>
+            <MenuOption on:click={handleDialogue}>Добавить диалог</MenuOption>
+            <MenuOption on:click={handleChoose}>Добавить выбор</MenuOption>
+        </Menu>
+    {/if}
 
-{#if contextmenu == "bg"}
-    <Menu
-        {...pos}
-        on:close={() => (contextmenu = "")}>
-        <MenuOption on:click={() => (modal = "newdialogue")}>
-            New Dialogue
-        </MenuOption>
-        <MenuOption on:click={() => (modal = "newchoose")}>
-            New Choose
-        </MenuOption>
-        <MenuOption on:click={() => download()}>Download Datapack</MenuOption>
-    </Menu>
-{:else if contextmenu == "node"}
-    <Menu
-        {...pos}
-        on:close={() => (contextmenu = "")}>
-        <MenuOption on:click={() => console.log("editnode")}>Edit</MenuOption>
-        <MenuOption on:click={() => editor.removeNode(editor.selected.list[0])}>
-            Delete
-        </MenuOption>
-    </Menu>
-{/if}
+    {#if modal}
+        <ModalDialogue on:close={handleModalClose} />
+    {/if}
 
-{#if modal == "newdialogue"}
-    <ModalDialogue
-        on:close={closeModal}
-        on:create={createDialogueNode} />
-{:else if modal == "newchoose"}
-    <ModalDialogue
-        multiple={true}
-        on:close={closeModal}
-        on:create={createChooseNode} />
-{/if}
+    <div class="controls">
+        <button on:click={downloadData}>Сохранить</button>
+        <input type="file" accept=".json" on:change={uploadData} />
+    </div>
 
-<SnackbarFactory bind:this={snackbar} />
+    <SnackbarFactory bind:show={snackbar.show} bind:text={snackbar.text} />
+</div>
+
+<style lang="scss">
+    .container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .editor {
+        flex: 1;
+        position: relative;
+        background: #1a1a1a;
+    }
+
+    .controls {
+        padding: 1rem;
+        background: #2a2a2a;
+        display: flex;
+        gap: 1rem;
+    }
+
+    button {
+        padding: 0.5rem 1rem;
+        background: #4a4a4a;
+        border: none;
+        color: white;
+        cursor: pointer;
+        border-radius: 4px;
+
+        &:hover {
+            background: #5a5a5a;
+        }
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+</style>

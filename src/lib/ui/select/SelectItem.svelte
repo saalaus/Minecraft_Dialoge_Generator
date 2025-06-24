@@ -2,17 +2,41 @@
 	export let item = undefined;
 </script>
 
-<div class="select-item {item.class}">
-    { item.label }
+<div class="select-item {item?.class}">
+    { item?.label }
 </div>
 
 <style>
-    .select-item{
+    .select-item {
         font-family: "Minecraftia";
         outline: none;
         height: 54px;
         font-size: 10pt;
+        padding: 0 8px;
+        display: flex;
+        align-items: center;
+        border: 2px solid #000;
+        box-shadow: inset 0px -2px 0px 0px rgba(0, 0, 0, 0.4), 
+                    inset -2px 0px 0px 0px rgba(0, 0, 0, 0.4), 
+                    inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4), 
+                    inset 2px 0px 0px 0px rgba(255, 255, 255, 0.4);
+        text-shadow: 2px 2px #000;
+        cursor: pointer;
+        transition: all 0.1s ease;
+        background-color: #c6c6c6;
     }
+
+    .select-item:hover {
+        background-color: #d6d6d6;
+    }
+
+    .select-item:active {
+        box-shadow: inset 0px 2px 0px 0px rgba(0, 0, 0, 0.4), 
+                    inset -2px 0px 0px 0px rgba(0, 0, 0, 0.4), 
+                    inset 0px -2px 0px 0px rgba(255, 255, 255, 0.4), 
+                    inset 2px 0px 0px 0px rgba(255, 255, 255, 0.4);
+    }
+
     .bg-white {
         background-color: white;
         color: black;

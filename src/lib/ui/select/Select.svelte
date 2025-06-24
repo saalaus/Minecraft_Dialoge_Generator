@@ -21,8 +21,61 @@
     ];
 </script>
 
-<Select {items} placeholder="Select color" clearable={false} searchable={false}>
-    <div slot="item" let:item>
-        <SelectItem {item} />
-    </div>
-</Select>
+<div class="select-container">
+    <Select {items} placeholder="Select color" clearable={false} searchable={false}>
+        <div slot="item" let:item>
+            <SelectItem {item} />
+        </div>
+    </Select>
+</div>
+
+<style>
+    :global(.select-container .svelte-select) {
+        --border: 2px solid #000;
+        --borderRadius: 0;
+        --background: #c6c6c6;
+        --height: 54px;
+        --padding: 0 8px;
+        --boxShadow: inset -2px -2px #000;
+        --textShadow: 2px 2px #000;
+        --fontFamily: "Minecraftia";
+        --fontSize: 10pt;
+    }
+
+    :global(.select-container .svelte-select .selected) {
+        background-color: #c6c6c6;
+        border: 2px solid #000;
+        box-shadow: inset -2px -2px #000;
+    }
+
+    :global(.select-container .svelte-select .selected:hover) {
+        background-color: #d6d6d6;
+    }
+
+    :global(.select-container .svelte-select .selected:active) {
+        box-shadow: inset 2px 2px #000;
+    }
+
+    :global(.select-container .svelte-select .list) {
+        background-color: #c6c6c6;
+        border: 2px solid #000;
+        box-shadow: inset -2px -2px #000;
+    }
+
+    :global(.select-container .svelte-select .list .option) {
+        padding: 8px;
+        border-bottom: 1px solid #000;
+    }
+
+    :global(.select-container .svelte-select .list .option:last-child) {
+        border-bottom: none;
+    }
+
+    :global(.select-container .svelte-select .list .option:hover) {
+        background-color: #d6d6d6;
+    }
+
+    :global(.select-container .svelte-select .list .option:active) {
+        box-shadow: inset 2px 2px #000;
+    }
+</style>

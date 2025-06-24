@@ -5,7 +5,11 @@ import { fileURLToPath, URL } from "node:url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [svelte()],
+    plugins: [svelte({
+        compilerOptions: {
+            dev: true
+        }
+    })],
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),

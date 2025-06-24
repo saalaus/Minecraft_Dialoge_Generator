@@ -1,7 +1,25 @@
 <script lang="ts">
-    import type { ClassicScheme, SvelteArea2D } from "rete-svelte-plugin";
-    import { Ref } from "rete-svelte-plugin";
-    type NodeExtraData = { width?: number; height?: number };
+    import type { ClassicScheme, SvelteArea2D } from "rete-svelte-plugin/5";
+    import type { Ref } from "rete-svelte-plugin/5";
+    
+    type NodeExtraData = { 
+        width?: number; 
+        height?: number;
+        position?: { x: number; y: number };
+    };
+    
+    type Input = {
+        label?: string;
+        socket: any;
+        control?: any;
+        showControl?: boolean;
+    };
+    
+    type Output = {
+        label?: string;
+        socket: any;
+    };
+    
     function sortByIndex<K, I extends undefined | { index?: number }>(
         entries: [K, I][]
     ) {
@@ -12,15 +30,64 @@
         });
         return entries as [K, Exclude<I, undefined>][];
     }
+    
     export let data: ClassicScheme["Node"] & NodeExtraData;
     export let emit: (props: SvelteArea2D<ClassicScheme>) => void;
+    
     $: width = Number.isFinite(data.width) ? `${data.width}px` : "";
     $: height = Number.isFinite(data.height) ? `${data.height}px` : "";
-    $: inputs = sortByIndex(Object.entries(data.inputs));
+    $: inputs = sortByIndex(Object.entries(data.inputs)) as [string, Input][];
     $: controls = sortByIndex(Object.entries(data.controls));
-    $: outputs = sortByIndex(Object.entries(data.outputs));
+    $: outputs = sortByIndex(Object.entries(data.outputs)) as [string, Output][];
+    
     function any<T>(arg: T): any {
         return arg;
+    }
+
+    let outputSocket: HTMLElement;
+    let inputSocket: HTMLElement;
+    let inputControl: HTMLElement;
+
+    $: if (outputSocket && outputs.length > 0) {
+        const [key, output] = outputs[0];
+        emit({
+            type: "render",
+            data: {
+                type: "socket",
+                side: "output",
+                key,
+                nodeId: data.id,
+                element: outputSocket,
+                payload: output.socket,
+            },
+        });
+    }
+
+    $: if (inputSocket && inputs.length > 0) {
+        const [key, input] = inputs[0];
+        emit({
+            type: "render",
+            data: {
+                type: "socket",
+                side: "input",
+                key,
+                nodeId: data.id,
+                element: inputSocket,
+                payload: input.socket,
+            },
+        });
+    }
+
+    $: if (inputControl && inputs.length > 0) {
+        const [key, input] = inputs[0];
+        emit({
+            type: "render",
+            data: {
+                type: "control",
+                element: inputControl,
+                payload: input.control,
+            },
+        });
     }
 </script>
 
@@ -39,23 +106,12 @@
                 data-testid="output-title">
                 {output.label || ""}
             </div>
-            <Ref
+            <div
                 class="output-socket"
                 data-testid="output-socket"
-                init={(element) =>
-                    emit({
-                        type: "render",
-                        data: {
-                            type: "socket",
-                            side: "output",
-                            key,
-                            nodeId: data.id,
-                            element,
-                            payload: output.socket,
-                        },
-                    })}
-                unmount={(ref) =>
-                    emit({ type: "unmount", data: { element: ref } })} />
+                bind:this={outputSocket}
+                on:destroy={() =>
+                    emit({ type: "unmount", data: { element: outputSocket } })} />
         </div>
     {/each}
 
@@ -64,23 +120,12 @@
         <div
             class="input"
             data-testid="'input-'+key">
-            <Ref
+            <div
                 class="input-socket"
                 data-testid="input-socket"
-                init={(element) =>
-                    emit({
-                        type: "render",
-                        data: {
-                            type: "socket",
-                            side: "input",
-                            key,
-                            nodeId: data.id,
-                            element,
-                            payload: input.socket,
-                        },
-                    })}
-                unmount={(ref) =>
-                    emit({ type: "unmount", data: { element: ref } })} />
+                bind:this={inputSocket}
+                on:destroy={() =>
+                    emit({ type: "unmount", data: { element: inputSocket } })} />
             {#if !input.control || !input.showControl}
                 <div
                     class="input-title"
@@ -89,20 +134,12 @@
                 </div>
             {/if}
             {#if input.control && input.showControl}
-                <Ref
+                <div
                     class="input-control"
                     data-testid="input-control"
-                    init={(element) =>
-                        emit({
-                            type: "render",
-                            data: {
-                                type: "control",
-                                element,
-                                payload: any(input).control,
-                            },
-                        })}
-                    unmount={(ref) =>
-                        emit({ type: "unmount", data: { element: ref } })} />
+                    bind:this={inputControl}
+                    on:destroy={() =>
+                        emit({ type: "unmount", data: { element: inputControl } })} />
             {/if}
         </div>
     {/each}

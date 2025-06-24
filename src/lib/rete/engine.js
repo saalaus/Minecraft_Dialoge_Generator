@@ -4,7 +4,7 @@ import {
     ConnectionPlugin,
     Presets as ConnectionPresets,
 } from "rete-connection-plugin";
-import { SveltePlugin, Presets } from "rete-svelte-plugin";
+import { SveltePlugin, Presets } from "rete-svelte-plugin/5";
 
 import htmlToTellraw from "../tellraw/generate";
 
@@ -45,7 +45,8 @@ export default async function createEditor(element) {
 
     return {
         destroy: () => area.destroy(),
-        area: area
+        area: area,
+        editor: editor
     };
 }
 
@@ -94,7 +95,6 @@ function createContextMenu(render){
 function createRender() {
     const render = new SveltePlugin();
     render.addPreset(
-        // @ts-ignore
         Presets.classic.setup({
             customize: {
                 node() {
@@ -138,43 +138,29 @@ function createArea(element) {
 export function createDialogue(editor, input_el, time) {
     const display = input_el.innerHTML;
     const tellraw = htmlToTellraw(input_el);
-    Promise.resolve(
-        components[0].createNode({
-            display: display,
-            tellraw: tellraw,
-            time: time,
-        })
-    ).then(function (node) {
-        node.position = [editor.view.area.mouse.x, editor.view.area.mouse.y];
-        node.addOutput(new Rete.Output("next", display, socket, false));
-        editor.addNode(node);
-        console.log(node);
-    });
+    const socket = new ClassicPreset.Socket("socket");
+    
+    const node = new ClassicPreset.Node("Dialogue");
+    node.addOutput("next", new ClassicPreset.Output(socket, display));
+    
+    const position = { x: editor.view.area.mouse.x, y: editor.view.area.mouse.y };
+    editor.addNode(node);
+    editor.view.area.translate(node.id, position);
+    console.log(node);
 }
 
 export function createChoose(editor, input_list, time) {
-    let outputs = [];
-    input_list.forEach((input) => {
+    const socket = new ClassicPreset.Socket("socket");
+    const node = new ClassicPreset.Node("Choose");
+    
+    input_list.forEach((input, index) => {
         const html = input.component.innerHTML;
         const tellraw = htmlToTellraw(input.component);
-        outputs.push({ html: html, tellraw: tellraw });
+        node.addOutput(`next${index}`, new ClassicPreset.Output(socket, html));
     });
 
-    Promise.resolve(
-        components[1].createNode({
-            time: time,
-            outputs: outputs,
-        })
-    ).then(function (node) {
-        node.position = [editor.view.area.mouse.x, editor.view.area.mouse.y];
-        let add = 0;
-        outputs.forEach((output, index) => {
-            node.addOutput(
-                new Rete.Output("next" + index, output.html, socket, false)
-            );
-            add++;
-        });
-        editor.addNode(node);
-        console.log(node);
-    });
+    const position = { x: editor.view.area.mouse.x, y: editor.view.area.mouse.y };
+    editor.addNode(node);
+    editor.view.area.translate(node.id, position);
+    console.log(node);
 }

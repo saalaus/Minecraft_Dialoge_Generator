@@ -1,21 +1,8 @@
-<script>
-    // svelte-ignore unused-export-let
-    export let sourceOutput;
-    // svelte-ignore unused-export-let
-    export let id;
-    // svelte-ignore unused-export-let
-    export let source;
-    // svelte-ignore unused-export-let
-    export let target;
-    // svelte-ignore unused-export-let
-    export let targetInput;
-    // svelte-ignore unused-export-let
-    export let start;
-    // svelte-ignore unused-export-let
-    export let end;
-    // svelte-ignore unused-export-let
-    export let isPseudo;
-    export let path;
+<script lang="ts">
+    import type { ClassicScheme } from "rete-svelte-plugin/5";
+    
+    export let data: ClassicScheme["Connection"];
+    export let path: string;
 </script>
 
 <svg data-testid="connection">
