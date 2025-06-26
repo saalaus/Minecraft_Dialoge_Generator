@@ -1,69 +1,87 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-    import type { NodeEditor } from "rete";
-    import type { AreaPlugin } from "rete-area-plugin";
-    import type { SvelteArea2D, ClassicScheme } from "rete-svelte-plugin/5";
-    import type { ClassicPreset } from "rete";
-    import ModalDialogue from "./lib/components/ModalDialogue.svelte";
-    import Menu from "./lib/components/Menu.svelte";
-    import MenuOption from "./lib/components/MenuOption.svelte";
-    import SnackbarFactory from "./lib/components/SnackbarFactory.svelte";
-    import createEditor from "./lib/rete/engine";
+    // import { onMount } from "svelte";
+    import { SvelteFlow, Background } from '@xyflow/svelte';
+    import '@xyflow/svelte/dist/style.css';
+    // import type { NodeEditor } from "rete";
+    // import type { AreaPlugin } from "rete-area-plugin";
+    // import type { SvelteArea2D, ClassicScheme } from "rete-svelte-plugin/5";
+    // import type { ClassicPreset } from "rete";
+    import ModalDialogue from "./lib/ui/modal/ModalDialogue.svelte";
+    import Menu from "./lib/ui/contextmenu/Menu.svelte";
+    import MenuOption from "./lib/ui/contextmenu/MenuOption.svelte";
+    // import SnackbarFactory from "./lib/components/SnackbarFactory.svelte";
+    // import createEditor from "./lib/rete/engine";
+    let nodes = $state.raw([
+        {
+            id: '1',
+            position: { x: 0, y: 0 },
+            data: { label: 'Hello' },
+        },
+        {
+            id: '2',
+            position: { x: 100, y: 100 },
+            data: { label: 'World' },
+        },
+    ]);
 
-    let contextMenu = false;
-    let modal = false;
-    let position = { x: 0, y: 0 };
+    let contextMenu = $state(false);
+    let modal = $state(false);
+    let cm_x = $state(0)
+    let cm_y = $state(0)
     let snackbar = { show: false, text: "" };
-    let editor: NodeEditor<ClassicScheme>;
-    let area: AreaPlugin<ClassicScheme, SvelteArea2D<ClassicScheme>>;
+    // let editor: NodeEditor<ClassicScheme>;
+    // let area: AreaPlugin<ClassicScheme, SvelteArea2D<ClassicScheme>>;
 
-    onMount(async () => {
-        const container = document.querySelector('.editor');
-        if (container) {
-            const result = await createEditor(container);
-            editor = result.editor;
-            area = result.area;
-        }
-    });
+    // onMount(async () => {
+    //     const container = document.querySelector('.editor');
+    //     if (container) {
+    //         // const result = await createEditor(container);
+    //         // editor = result.editor;
+    //         // area = result.area;
+    //     }
+    // });
 
-    function handleDialogue() {
-        if (!editor) return;
-        const node = editor.addNode("dialogue") as ClassicPreset.Node;
-        const pos = { x: position.x, y: position.y };
-        area.translate(node.id, pos);
-        modal = false;
-        contextMenu = false;
-    }
+    // function handleDialogue() {
+    //     if (!editor) return;
+    //     const node = editor.addNode("dialogue") as ClassicPreset.Node;
+    //     const pos = { x: position.x, y: position.y };
+    //     area.translate(node.id, pos);
+    //     modal = false;
+    //     contextMenu = false;
+    // }
 
-    function handleChoose() {
-        if (!editor) return;
-        const node = editor.addNode("choose") as ClassicPreset.Node;
-        const pos = { x: position.x, y: position.y };
-        area.translate(node.id, pos);
-        modal = false;
-        contextMenu = false;
-    }
+    // function handleChoose() {
+    //     if (!editor) return;
+    //     const node = editor.addNode("choose") as ClassicPreset.Node;
+    //     const pos = { x: position.x, y: position.y };
+    //     area.translate(node.id, pos);
+    //     modal = false;
+    //     contextMenu = false;
+    // }
 
     function handlePageClick(event: MouseEvent) {
         if (event.button === 2) {
-            position = { x: event.clientX, y: event.clientY };
+            console.log(event)
+            event.preventDefault()
+            cm_x = event.clientX
+            cm_y = event.clientY
             contextMenu = true;
         } else {
             contextMenu = false;
         }
     }
 
-    function handleNodeDeselect() {
-        if (!editor) return;
-        editor.selected.clear();
-    }
+    // function handleNodeDeselect() {
+    //     if (!editor) return;
+    //     editor.selected.clear();
+    // }
 
     function handleKeyup(event: KeyboardEvent) {
-        if (event.key === "Delete" && editor) {
-            editor.selected.each((node) => {
-                editor.removeNode(node.id);
-            });
-        }
+        // if (event.key === "Delete" && editor) {
+        //     editor.selected.each((node) => {
+        //         editor.removeNode(node.id);
+        //     });
+        // }
     }
 
     function handleModalClose() {
@@ -71,37 +89,59 @@
         contextMenu = false;
     }
 
-    function downloadData() {
-        if (!editor) return;
-        const data = editor.toJSON();
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "dialogue.json";
-        a.click();
-        URL.revokeObjectURL(url);
+    function modalClick(){
+        modal = true;
     }
 
-    function uploadData(event: Event) {
-        const file = (event.target as HTMLInputElement).files?.[0];
-        if (!file || !editor) return;
+    // function downloadData() {
+    //     if (!editor) return;
+    //     const data = editor.toJSON();
+    //     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    //     const url = URL.createObjectURL(blob);
+    //     const a = document.createElement("a");
+    //     a.href = url;
+    //     a.download = "dialogue.json";
+    //     a.click();
+    //     URL.revokeObjectURL(url);
+    // }
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                const data = JSON.parse(e.target?.result as string);
-                editor.fromJSON(data);
-                snackbar = { show: true, text: "Диалог успешно загружен" };
-            } catch (error) {
-                snackbar = { show: true, text: "Ошибка при загрузке диалога" };
-            }
-        };
-        reader.readAsText(file);
-    }
+    // function uploadData(event: Event) {
+    //     const file = (event.target as HTMLInputElement).files?.[0];
+    //     if (!file || !editor) return;
+
+    //     const reader = new FileReader();
+    //     reader.onload = (e) => {
+    //         try {
+    //             const data = JSON.parse(e.target?.result as string);
+    //             editor.fromJSON(data);
+    //             snackbar = { show: true, text: "Диалог успешно загружен" };
+    //         } catch (error) {
+    //             snackbar = { show: true, text: "Ошибка при загрузке диалога" };
+    //         }
+    //     };
+    //     reader.readAsText(file);
+    // }
 </script>
 
-<div class="container" on:click={handleNodeDeselect} on:keyup={handleKeyup}>
+<div style:width="100vw" style:height="100vh"> 
+    <SvelteFlow bind:nodes oncontextmenu={handlePageClick} onclick={handlePageClick}
+                onmove={handlePageClick} onconnectstart={handlePageClick}>
+        <!-- <Background /> -->
+        {#if contextMenu}
+            <Menu x={cm_x} y={cm_y}>
+                <MenuOption onclick={() => modal = true}>Add Dialogue</MenuOption>
+                <!-- <MenuOption>Добавить выбор</MenuOption> -->
+            </Menu>
+        {/if}
+    </SvelteFlow>
+</div>
+
+{#if modal}
+    <ModalDialogue onclose={handleModalClose} />
+{/if}
+
+
+<!-- <div class="container" on:click={handleNodeDeselect} on:keyup={handleKeyup}>
     <div class="editor" on:contextmenu|preventDefault={handlePageClick}>
         {#if editor && area}
             <svelte:component this={area.view} />
@@ -115,9 +155,6 @@
         </Menu>
     {/if}
 
-    {#if modal}
-        <ModalDialogue on:close={handleModalClose} />
-    {/if}
 
     <div class="controls">
         <button on:click={downloadData}>Сохранить</button>
@@ -125,7 +162,7 @@
     </div>
 
     <SnackbarFactory bind:show={snackbar.show} bind:text={snackbar.text} />
-</div>
+</div> -->
 
 <style lang="scss">
     .container {

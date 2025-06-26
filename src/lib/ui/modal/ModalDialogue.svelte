@@ -2,28 +2,36 @@
     import Modal from "./Modal.svelte"
     import Editor from "@project/tellraw/Editor.svelte";
     import Button from "@ui/Button.svelte";
-    import { createEventDispatcher } from "svelte";
 
-    const dispatch = createEventDispatcher()
-    let input;
-    let time;
-    export let multiple = false;
+    let { onclose = undefined, multiple = true, oncreate = undefined } = $props()
+
+    let input = $state();
+    let time = $state();
     function create(){
         const data = {
             input: input.getInput(),
             time: time
         }
-        dispatch("create", data)
+        oncreate(data)
     }
 </script>
 
 
-<Modal name="New Dialogue" on:close>
-    <div slot="body">
+<Modal name="New Dialogue" {onclose}>
+    {#snippet body()}
         <Editor {multiple} bind:this={input} bind:time/>
-    </div>
-    <div slot="footer" style="display: flex; justify-content: space-evenly;">
-        <Button on:click={() => create()}>Create</Button>
-        <Button type="secondary" on:click={() => dispatch("close")}>Cancel</Button>
-    </div>
+    {/snippet}
+    {#snippet footer()}
+        <div class="footer">
+            <Button on:click={() => create()}>Create</Button>
+            <Button type="secondary" on:click={() => onclose()}>Cancel</Button>
+        </div>
+    {/snippet}
 </Modal>
+
+<style>
+    .footer{
+        display: flex;
+        justify-content: space-evenly;
+    }
+</style>

@@ -67,7 +67,7 @@
     }
 
     /* TODO: uncomment for activate buttons */
-    /* .btn.toggle{
+    .btn.toggle{
         border-bottom-color: transparent;
         outline: none;
         border-width: 4px 0 0;
@@ -89,5 +89,4 @@
         border-bottom-color: #3b8526;
         background-color: #4bbc22;
     }
-    */
 </style>

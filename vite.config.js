@@ -7,7 +7,7 @@ import { fileURLToPath, URL } from "node:url";
 export default defineConfig({
     plugins: [svelte({
         compilerOptions: {
-            dev: true
+            dev: true, hmr: false
         }
     })],
     resolve: {
@@ -18,4 +18,7 @@ export default defineConfig({
             "@project": fileURLToPath(new URL("./src/lib", import.meta.url)),
         },
     },
+    server: {
+        port: 8000
+    }
 });

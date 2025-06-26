@@ -1,12 +1,10 @@
 <script>
-    import { createEventDispatcher } from "svelte";
     import { input_text } from "../../stores";
 
-    export let name = undefined;
+    let { onclose = undefined, name = undefined, header = undefined, body, footer } = $props();
 
-    let dispatch = createEventDispatcher();
     function close() {
-        dispatch("close");
+        onclose();
         input_text.set("");
     }
     function keypress(e) {
@@ -21,17 +19,16 @@
 <div class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <slot name="header">
-                <h2 class="modal-header-text">
-                    {name}
-                </h2>
-            </slot>
+            {@render header?.()}
+            <h2 class="modal-header-text">
+                {name}
+            </h2>
         </div>
         <div class="modal-body">
-            <slot name="body" />
+            {@render body()}
         </div>
         <div class="modal-footer">
-            <slot name="footer" />
+            {@render footer()}
         </div>
     </div>
 </div>

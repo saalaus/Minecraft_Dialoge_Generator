@@ -1,5 +1,9 @@
-<div class="context-menu_item" on:click on:keypress={undefined}>
-    <slot />
+<script lang="ts">
+    let { onclick = undefined, children } = $props();
+</script>
+
+<div class="context-menu_item" {onclick} onkeypress={() => {}} role="menuitem" tabindex="0">
+    {@render children?.()}
 </div>
 
 <style lang="scss">
