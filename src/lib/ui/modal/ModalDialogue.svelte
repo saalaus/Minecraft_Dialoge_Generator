@@ -23,8 +23,8 @@
     {/snippet}
     {#snippet footer()}
         <div class="footer">
-            <Button on:click={() => create()}>Create</Button>
-            <Button type="secondary" on:click={() => onclose()}>Cancel</Button>
+            <Button onclick={() => create()}>Create</Button>
+            <Button type="secondary" onclick={() => onclose()}>Cancel</Button>
         </div>
     {/snippet}
 </Modal>

@@ -1,13 +1,10 @@
 <script>
-    let class_ = "";
-    export {class_ as class}
-    export let data_edit = "";
-    export let type = "primary"
+    let {children, class: className = "", data_edit = "", type = "primary", onclick = undefined} = $props()
 </script>
 
-<button class="btn btn-{type} {class_ || ''}" data-edit={data_edit} on:click>
+<button class="btn btn-{type} {className}" data-edit={data_edit} {onclick}>
     <div class="title">
-        <slot />
+        {@render children?.()}
     </div>
 </button>
 

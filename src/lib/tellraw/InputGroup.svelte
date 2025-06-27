@@ -1,15 +1,13 @@
 <script>
-    import { createEventDispatcher } from "svelte";
     import Button from "@ui/Button.svelte";
     import Input from "@ui/Input.svelte";
 
     let element_group;
-    export let element;
-    export let id;
-    const dispatch = createEventDispatcher();
+    let {element, id, onkill = undefined} = $props();
 
     function removeInput(){
-        dispatch("kill", id)
+        console.log(element)
+        onkill(id)
     }
 </script>
 
@@ -17,7 +15,7 @@
 
 <div class="editor_text-input" bind:this={element_group}>
     <Input bind:element></Input>
-    <Button type="negative" on:click={removeInput}>-</Button>
+    <Button type="negative" onclick={removeInput}>-</Button>
 </div>
 
 <style lang="scss">

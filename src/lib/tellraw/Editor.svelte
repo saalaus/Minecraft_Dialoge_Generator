@@ -123,7 +123,7 @@
         {#if multiple}
             <Button
                 class="add-input"
-                on:click={() => {
+                onclick={() => {
                     input_list = input_list.concat({ id: additionalInput });
                     // input_list = input_list
                     additionalInput += 1;
@@ -133,7 +133,7 @@
     {#each input_list as item, i (item.id)}
         <InputGroup
             bind:element={item.component}
-            on:kill={(e) => {
+            onkill={(e) => {
                 console.log(e);
                 input_list = input_list.filter(e => e != item)
                 console.log(input_list);
@@ -141,7 +141,7 @@
             id={item.id} />
     {/each}
 </div>
-<div class="time-container" data-hover="Delay before dialog in ticks (20 by default(1 seconds))">
+<div class="time-container" data-hover="Delay before dialog in ticks (20 tick = 1 second)">
     <input type="number" placeholder="time" class="text-input" bind:value={time}/>
 
 </div>
@@ -151,20 +151,20 @@
         class="btn-group">
         <Button
             data_edit="bold"
-            on:click={() => toggleApplier(textApplier.bold)}>B</Button>
+            onclick={() => toggleApplier(textApplier.bold)}>B</Button>
         <Button
             data_edit="italic"
-            on:click={() => toggleApplier(textApplier.italic)}>I</Button>
+            onclick={() => toggleApplier(textApplier.italic)}>I</Button>
         <Button
             data_edit="underline"
-            on:click={() => toggleApplier(textApplier.underline)}>U</Button>
+            onclick={() => toggleApplier(textApplier.underline)}>U</Button>
         <Button
             data_edit="strike"
-            on:click={() => toggleApplier(textApplier.strike)}>S</Button>
+            onclick={() => toggleApplier(textApplier.strike)}>S</Button>
         <Button
             data_edit="obfuscated"
-            on:click={() => toggleApplier(textApplier.obfuscated)}>O</Button>
-        <Button on:click={() => clearSelection()}>R</Button>
+            onclick={() => toggleApplier(textApplier.obfuscated)}>O</Button>
+        <Button onclick={() => clearSelection()}>R</Button>
     </div>
     <div class="color-choose_container">
         <ColorChoose
