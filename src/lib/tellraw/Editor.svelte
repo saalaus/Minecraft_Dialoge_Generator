@@ -1,18 +1,59 @@
 <script>
+
     import Button from "@ui/Button.svelte";
     import Input from "@ui/Input.svelte";
     import ColorChoose from "@ui/ColorChoose.svelte";
     import { createClassApplier } from "rangy-classapplier";
     import InputGroup from "./InputGroup.svelte";
+    import { onMount } from 'svelte';
+    import { Editor } from '@tiptap/core';
+    import { Mark, mergeAttributes } from '@tiptap/core'
+    import StarterKit from '@tiptap/starter-kit';
+    import TextStyle from '@tiptap/extension-text-style';
+    import Color from '@tiptap/extension-color';
+    import Underline from '@tiptap/extension-underline';
+    import Strike from '@tiptap/extension-strike';
 
-    export let multiple = false;
-    export let additionalInput = 1;
-    let input;
+    
+const Obfuscated = Mark.create({
+  name: 'obfuscated',
+
+  parseHTML() {
+    return [
+      {
+        tag: 'span.obfuscated'
+      }
+    ]
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['span', mergeAttributes(HTMLAttributes, {
+      class: 'obfuscated'
+    }), 0]
+  },
+
+  addCommands() {
+    return {
+      toggleObfuscated: () => ({ commands }) => {
+        return commands.toggleMark(this.name)
+      }
+    }
+  }
+})
+    let html = $state('');
+    let input = $state();
     let inputInterval;
-    let selectColor;
-    let input_list = [];
-    export let time;
-    $: console.log(input_list);
+    let selectColor = $state();
+    let input_list = $state([]);
+    /**
+     * @typedef {Object} Props
+     * @property {boolean} [multiple]
+     * @property {number} [additionalInput]
+     * @property {any} time
+     */
+
+    /** @type {Props} */
+    let { multiple = false, additionalInput = $bindable(1), time = $bindable() } = $props();
 
     const textApplier = {
         bold: createClassApplier("bold"),
@@ -112,14 +153,54 @@
     /*     //e.target.parentNode.removeChild(e.target); */
     /*     additionalInput -= 1; */
     /* } */
+
+    let editor = $state();
+
+    onMount(() => {
+    editor = new Editor({
+      element: document.querySelector('#editor'),
+      extensions: [
+        StarterKit,
+        TextStyle,
+        Color,
+        Underline,
+        Strike,
+        Obfuscated
+      ],
+      onUpdate: ({ editor }) => {
+        console.log(editor)
+        html = editor.getHTML();
+      }
+    });
+  });
+
+  const toggleBold = () => editor.chain().focus().toggleBold().run();
+  const toggleItalic = () => editor.chain().focus().toggleItalic().run();
+  const toggleUnderline = () => editor.chain().focus().toggleUnderline().run();
+  const toggleStrike = () => editor.chain().focus().toggleStrike().run();
+  const toggleObfuscated = () => editor.chain().focus().toggleObfuscated().run();
+  const setColor = (color) => editor.chain().focus().setColor(color).run();
 </script>
+
+<div class="toolbar">
+    <button onclick={toggleBold}>Bold</button>
+    <button onclick={toggleItalic}>Italic</button>
+    <button onclick={toggleUnderline}>Underline</button>
+    <button onclick={toggleStrike}>Strike</button>
+    <button onclick={toggleObfuscated}>Obfuscated</button>
+    <input type="color" oninput={(e) => setColor(e.target.value)} />
+</div>
+
+<div id="editor" class="editor"></div>
+
+<p>HTML: {html}</p>
 
 <div class="editor_text-inputs">
     <div class="editor_text-input">
         <Input
             bind:element={input}
-            on:focus={onfocus}
-            on:blur={onblur}/>
+            {onfocus}
+            {onblur}/>
         {#if multiple}
             <Button
                 class="add-input"

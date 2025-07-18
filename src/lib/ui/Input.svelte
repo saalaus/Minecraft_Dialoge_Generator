@@ -1,29 +1,22 @@
 <script>
-    import { createEventDispatcher } from "svelte";
-
-    export let element;
-    const dispatch = createEventDispatcher();
+    let { element = $bindable(), oninput = undefined, onfocus = undefined, onblur = undefined } = $props();
 
     export function focus() {
         element.focus();
     }
 
     export function trigger() {
-        onInput();
-    }
-
-    function onInput() {
-        dispatch("input", element);
+        oninput();
     }
 </script>
 
 <div
     contenteditable="true"
     class="text-input"
-    on:input={onInput}
-    on:focus
-    on:blur
-    bind:this={element} />
+    {oninput}
+    {onfocus}
+    {onblur}
+    bind:this={element}></div>
 
 <style>
     .text-input {

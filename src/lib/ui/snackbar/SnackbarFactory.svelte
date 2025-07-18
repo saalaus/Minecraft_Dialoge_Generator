@@ -1,21 +1,29 @@
 <script>
     import Snackbar from "./Snackbar.svelte";
+import { mount } from "svelte";
+    /**
+     * @typedef {Object} Props
+     * @property {import('svelte').Snippet} [children]
+     */
 
-    let element;
+    /** @type {Props} */
+    let { children } = $props();
+
+    let element = $state();
 
     export function create(text, duration) {
-        new Snackbar({
-            target: element,
-            props: {
-                text: text,
-                duration: duration,
-            },
-        });
+        mount(Snackbar, {
+                    target: element,
+                    props: {
+                        text: text,
+                        duration: duration,
+                    },
+                });
     }
 </script>
 
 <div class="snackbar" bind:this={element}>
-    <slot />
+    {@render children?.()}
 </div>
 
 <style>

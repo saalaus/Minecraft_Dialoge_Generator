@@ -4,10 +4,16 @@
     import Toast from "@assets/toast.png";
 
     const dispatch = createEventDispatcher();
-    export let text;
-    export let duration = 3000;
+    /**
+     * @typedef {Object} Props
+     * @property {any} text
+     * @property {number} [duration]
+     */
 
-    let active = true;
+    /** @type {Props} */
+    let { text, duration = 3000 } = $props();
+
+    let active = $state(true);
     onMount(() => {
         setInterval(() => {
             active = false;

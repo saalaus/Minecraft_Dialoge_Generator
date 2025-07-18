@@ -1,5 +1,5 @@
 <script>
-	export let item = undefined;
+    let { item = undefined } = $props();
 </script>
 
 <div class="select-item {item?.class}">

@@ -23,9 +23,11 @@
 
 <div class="select-container">
     <Select {items} placeholder="Select color" clearable={false} searchable={false}>
-        <div slot="item" let:item>
-            <SelectItem {item} />
-        </div>
+        {#snippet item({ item })}
+                <div  >
+                <SelectItem {item} />
+            </div>
+            {/snippet}
     </Select>
 </div>
 

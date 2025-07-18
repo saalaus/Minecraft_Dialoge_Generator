@@ -14,7 +14,7 @@
     }
 </script>
 
-<svelte:window on:keydown={keypress} />
+<svelte:window onkeydown={keypress} />
 
 <div class="modal">
     <div class="modal-content">

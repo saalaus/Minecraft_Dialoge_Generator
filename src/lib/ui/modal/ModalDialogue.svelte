@@ -6,7 +6,7 @@
     let { onclose = undefined, multiple = true, oncreate = undefined } = $props()
 
     let input = $state();
-    let time = $state();
+    let time = $state(20);
     function create(){
         const data = {
             input: input.getInput(),

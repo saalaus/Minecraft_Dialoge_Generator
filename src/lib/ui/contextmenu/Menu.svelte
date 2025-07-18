@@ -19,7 +19,7 @@
     }
 </script>
 
-<svelte:body on:click={onPageClick} />
+<svelte:body onclick={onPageClick} />
 
 <div bind:this={element} class="context-menu" style="top: {y}px; left: {x}px;">
     {@render children?.()}

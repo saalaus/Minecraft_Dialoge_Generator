@@ -3,7 +3,7 @@
     import Input from "@ui/Input.svelte";
 
     let element_group;
-    let {element, id, onkill = undefined} = $props();
+    let {element = $bindable(), id, onkill = undefined} = $props();
 
     function removeInput(){
         console.log(element)
